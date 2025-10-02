@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MindMend – AI</title>
+
+  <!-- Fonts + styles your project already uses -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Your header/nav here (unchanged) -->
+   <header>
+    <div class="container nav">
+      <div class="brand">MINDMEND</div>
+      <nav>
+        <ul>
+          <li><a href="index.html">HOME</a></li>
+          <li><a href="ai.html">MINDMEND AI</a></li>
+          <li><a href="journal.html">JOURNAL</a></li>
+          <li><a href="counselor.html">COUNSELOR</a></li>
+          <li><a href="contact.html">CONTACT</a></li>
+          <li><a href="login.html" id="accountLink">SIGN UP</a></li>
+          <li><button id="logoutBtn" class="btn" style="display:none">LOG OUT</button></li>
+        </ul>
+      </nav>
+    </div>
+    <div style="text-align:center;color:#fff;padding:6px 0 14px;opacity:.9">
+      “EMPOWERING STUDENTS TO EXPRESS, HEAL, AND GROW”
+    </div>
+  </header>
+
+
+  <main class="container section">
+    <h1 style="font-family:Playfair Display,serif;margin-top:0">MindMend AI</h1>
+
+    <div class="chatwrap">
+      <div id="aiLog" class="bubble" style="min-height:160px" aria-live="polite"></div>
+
+      <!-- (Optional) consent toggle if you want users to approve journal access -->
+      <label style="display:flex;gap:8px;align-items:center;margin:10px 0">
+        <input id="aiConsent" type="checkbox" checked />
+        <span class="muted">Allow AI to read my recent journals to personalize advice</span>
+      </label>
+
+      <div class="composer">
+        <input id="aiInput" placeholder="Ask for support…" aria-label="Type your message" />
+        <button id="aiSend" class="btn" type="button">Send</button>
+      </div>
+    </div>
+  </main>
+
+  <!-- Your footer here (unchanged) -->
+
+  <!-- Supabase client FIRST -->
+  <script type="module">
+    import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+    window.SUPABASE_URL = "https://pgpxmtkzgifspotnjrpi.supabase.co";
+    window.SUPABASE_ANON_KEY = "YOUR_ANON_KEY_HERE";
+    window.supabase = createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY);
+  </script>
+
+  <!-- Core (auth/header/guard) -->
+  <script src="core.js"></script>
+
+  <!-- Page script (chat logic) -->
+  <script src="ai.js"></script>
+</body>
+</html>

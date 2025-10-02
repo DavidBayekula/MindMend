@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MindMend – Counselors</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+
+</head>
+<body>
+  
+  <header>
+    <div class="container nav">
+      <div class="brand">MINDMEND</div>
+      <nav>
+        <ul>
+          <li><a href="index.html">HOME</a></li>
+          <li><a href="ai.html">MINDMEND AI</a></li>
+          <li><a href="journal.html">JOURNAL</a></li>
+          <li><a href="counselor.html">COUNSELOR</a></li>
+          <li><a href="contact.html">CONTACT</a></li>
+          <li><a href="login.html" id="accountLink">SIGN UP</a></li>
+          <li><button id="logoutBtn" class="btn" style="display:none">LOG OUT</button></li>
+        </ul>
+      </nav>
+    </div>
+    <div style="text-align:center;color:#fff;padding:6px 0 14px;opacity:.9">
+      “EMPOWERING STUDENTS TO EXPRESS, HEAL, AND GROW”
+    </div>
+  </header>
+
+  <main class="container section">
+    
+  <div class="card">
+    <h2 style="margin-top:0">Search for University Counselors</h2>
+    <div class="searchbar">
+      <input id="counselorName" class="input" placeholder="Counselor Name (e.g., Cox)" />
+      <input id="counselorUniv" class="input" placeholder="University (e.g., North Carolina Central University)" />
+      <button id="searchBtn" class="btn" type="button">SEARCH</button>
+    </div>
+    <p id="resultsFor" class="muted" style="margin-top:12px;display:none">Showing results for …</p>
+  </div>
+  <div id="counselorResults" aria-live="polite"></div>
+
+  </main>
+  
+  <footer class="container">
+    <div>© <span id="year"></span> MindMend • All rights reserved.</div>
+  </footer>
+  <!-- Supabase client must be first -->
+<script type="module">
+  import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+  window.SUPABASE_URL = "https://pgpxmtkzgifspotnjrpi.supabase.co";
+  window.SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBncHhtdGt6Z2lmc3BvdG5qcnBpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTg4Mzc3MjQsImV4cCI6MjA3NDQxMzcyNH0.me3WRQM5CdGq8bAIRNMsk07lUqxkLUbeIRAgvrc_sYs";
+  window.supabase = createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY);
+</script>
+
+  <!-- Core (auth/header/guard/boot) -->
+  <script src="core.js"></script>
+
+  <!-- Page-specific -->
+  <!-- journal.html also needs TinyMCE before app.js: -->
+  <script src="https://cdn.jsdelivr.net/npm/tinymce@6/tinymce.min.js" referrerpolicy="origin"></script>
+  <script src="app.js"></script>
+  <script src="counselors.js"></script>
+
+</body>
+</html>

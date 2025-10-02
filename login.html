@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MindMend – Login / Sign Up</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+
+</head>
+<body>
+  
+  <header>
+    <div class="container nav">
+      <div class="brand">MINDMEND</div>
+      <nav>
+        <ul>
+          <li><a href="index.html">HOME</a></li>
+          <li><a href="ai.html">MINDMEND AI</a></li>
+          <li><a href="journal.html">JOURNAL</a></li>
+          <li><a href="counselor.html">COUNSELOR</a></li>
+          <li><a href="contact.html">CONTACT</a></li>
+          <li><a href="login.html" id="accountLink">SIGN UP</a></li>
+          <li><button id="logoutBtn" class="btn" style="display:none">LOG OUT</button></li>
+        </ul>
+      </nav>
+    </div>
+    <div style="text-align:center;color:#fff;padding:6px 0 14px;opacity:.9">
+      “EMPOWERING STUDENTS TO EXPRESS, HEAL, AND GROW”
+    </div>
+  </header>
+
+  <main class="container section">
+    
+  <div class="loginwrap">
+    <div class="login">
+      <div class="circle">👤</div>
+      <h3>ACCOUNT</h3>
+      <div style="display:flex;gap:8px;justify-content:center;margin-bottom:12px">
+        <button id="tabLogin" class="btn" type="button">LOGIN</button>
+        <button id="tabSignup" class="btn" type="button" style="background:#3f423f">SIGN UP</button>
+      </div>
+      <form id="loginForm" autocomplete="on" style="display:block">
+        <div class="field"><input id="loginUser" class="input" placeholder="EMAIL…" required /></div>
+        <div class="field"><input id="loginPass" class="input" placeholder="PASSWORD…" type="password" required /></div>
+        <button class="btn" type="submit">SIGN IN</button>
+        <div id="loginMsg" style="margin-top:10px;color:#e8eeea"></div>
+      </form>
+      <form id="signupForm" autocomplete="off" style="display:none;margin-top:10px">
+        <div class="field"><input id="signupUser" class="input" placeholder="EMAIL…" required /></div>
+        <div class="field"><input id="signupPass" class="input" placeholder="CREATE PASSWORD…" type="password" required /></div>
+        <button class="btn" type="submit">CREATE ACCOUNT</button>
+        <div id="signupMsg" style="margin-top:10px;color:#e8eeea"></div>
+      </form>
+    </div>
+  </div>
+
+  </main>
+  
+  <footer class="container">
+    <div>© <span id="year"></span> MindMend • All rights reserved.</div>
+  </footer>
+ 
+  <!-- Supabase client must be first -->
+<script type="module">
+  import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+  window.SUPABASE_URL = "https://pgpxmtkzgifspotnjrpi.supabase.co";
+  window.SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBncHhtdGt6Z2lmc3BvdG5qcnBpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTg4Mzc3MjQsImV4cCI6MjA3NDQxMzcyNH0.me3WRQM5CdGq8bAIRNMsk07lUqxkLUbeIRAgvrc_sYs";
+  window.supabase = createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY);
+</script>
+
+<!-- Core (auth/header/guard/boot) -->
+<script src="core.js"></script>
+
+<!-- Page-specific -->
+<!-- journal.html also needs TinyMCE before app.js: -->
+<script src="https://cdn.jsdelivr.net/npm/tinymce@6/tinymce.min.js" referrerpolicy="origin"></script>
+<script src="app.js"></script>
+
+</body>
+</html>
