@@ -39,7 +39,29 @@
     <h2 style="margin-top:0">Search for University Counselors</h2>
     <div class="searchbar">
       <input id="counselorName" class="input" placeholder="Counselor Name (e.g., Cox)" />
-      <input id="counselorUniv" class="input" placeholder="University (e.g., North Carolina Central University)" />
+    <!-- Filter For counselor page-->
+      <select id="counselorUniv" class="input" aria-label="Select your UNC System Campus">
+        <option value="">Filter by Campus...</option>
+        <option value="Appalachian State University">Appalachian State University</option>
+        <option value="Duke University">Duke University</option>
+        <option value="East Carolina University">East Carolina University</option>
+        <option value="Elizabeth City State University">Elizabeth City State University</option>
+        <option value="Fayetteville State University">Fayetteville State University</option>
+        <option value="North Carolina A&T State University">North Carolina A&T State University (NC A&T)</option>
+        <option value="North Carolina Central University">North Carolina Central University (NCCU)</option>
+        <option value="NC State University">NC State University</option>
+        <option value="University of North Carolina at Asheville">UNC Asheville</option>
+        <option value="University of North Carolina at Chapel Hill">UNC Chapel Hill</option>
+        <option value="University of North Carolina at Charlotte">UNC Charlotte</option>
+        <option value="University of North Carolina at Greensboro">UNC Greensboro</option>
+        <option value="University of North Carolina at Pembroke">UNC Pembroke</option>
+        <option value="University of North Carolina School of the Arts">UNC School of the Arts (UNCSA)</option>
+        <option value="University of North Carolina Wilmington">UNC Wilmington</option>
+        <option value="Western Carolina University">Western Carolina University</option>
+        <option value="Winston-Salem State University">Winston-Salem State University (WSSU)</option>
+        <option value="North Carolina School of Science and Mathematics">NC School of Science and Mathematics (NCSSM)</option>
+      </select>
+
       <button id="searchBtn" class="btn" type="button">SEARCH</button>
     </div>
     <p id="resultsFor" class="muted" style="margin-top:12px;display:none">Showing results for …</p>
