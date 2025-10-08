@@ -102,7 +102,13 @@
   core.onReady = function (cb) { if (ready) cb(); else queue.push(cb); };
 
   async function boot() {
+    try {
+      if (!window.supabase) throw new Error("Supabase not initialized");
     await core.waitForAuthReady();
+    } catch (err) {
+    console.warn("Core boot fallback:", err.message);
+  }
+
     await core.updateHeaderUI();
     const ok = await core.guard();
     if (!ok) return;                  // redirected to login
