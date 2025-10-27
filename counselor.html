@@ -74,11 +74,13 @@
     <div>© <span id="year"></span> MindMend • All rights reserved.</div>
   </footer>
   <!-- Supabase client must be first -->
+<script src="/env.js"></script>
 <script type="module">
   import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
-  window.SUPABASE_URL = "https://pgpxmtkzgifspotnjrpi.supabase.co";
-  window.SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBncHhtdGt6Z2lmc3BvdG5qcnBpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTg4Mzc3MjQsImV4cCI6MjA3NDQxMzcyNH0.me3WRQM5CdGq8bAIRNMsk07lUqxkLUbeIRAgvrc_sYs";
-  window.supabase = createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY);
+  if (!window.env?.SUPABASE_URL || !window.env?.SUPABASE_ANON_KEY) {
+    console.error("Missing SUPABASE env vars"); // This will show in browser console
+  }
+  window.supabase = createClient(window.env.SUPABASE_URL, window.env.SUPABASE_ANON_KEY);
 </script>
 
   <!-- Core (auth/header/guard/boot) -->
