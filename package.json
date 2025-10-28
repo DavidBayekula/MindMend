@@ -1,0 +1,15 @@
+{
+  "name": "mindmend",
+  "version": "1.0.0",
+  "description": "MindMend is a mental health website designed specifically to support college students in managing their mental well-being.",
+  "main": "ai.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^17.2.3"
+  }
+}

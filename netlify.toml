@@ -1,8 +1,14 @@
 [build]
   publish = "."
   command = "node generate-env.js"
+  environment = { NODE_VERSION = "20" }
 
-[[redirects]]
-  from = "/env.js"
-  to = "/env.js"
-  status = 200
+[dev]
+  command = "node generate-env.js && netlify dev --port 8888"
+  port = 8888
+
+# Optional: cache headers
+[[headers]]
+  for = "/env.js"
+  [headers.values]
+    Cache-Control = "no-cache"
