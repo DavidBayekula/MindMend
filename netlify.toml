@@ -2,11 +2,10 @@
   publish = "."
   command = "node generate-env.js"
   environment = { NODE_VERSION = "20" }
-
 [dev]
-  command = "node generate-env.js && netlify dev --port 8888"
+  command = "node generate-env.js && netlify dev"
   port = 8888
-
+  
 # Optional: cache headers
 [[headers]]
   for = "/env.js"
