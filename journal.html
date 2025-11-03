@@ -13,29 +13,30 @@
 </head>
 <body>
   
-<header>
+  <header>
+    <!-- Rich text editor -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/tinymce@6/tinymce.min.js" referrerpolicy="origin"></script> -->
+    <div class="container nav">
+      <div class="brand">MINDMEND</div>
+      <nav>
+        <ul>
+          <li><a href="index.html">HOME</a></li>
+          <li><a href="ai.html">MINDMEND AI</a></li>
+          <li><a href="journal.html">JOURNAL</a></li>
+          <li><a href="counselor.html">COUNSELOR</a></li>
+          <li><a href="contact.html">CONTACT</a></li>
+          <li><a href="login.html" id="accountLink">SIGN UP</a></li>
+          <li><button id="logoutBtn" class="btn" style="display:none">LOG OUT</button></li>
+        </ul>
+      </nav>
+    </div>
+    <div style="text-align:center;color:#fff;padding:6px 0 14px;opacity:.9">
+      “EMPOWERING STUDENTS TO EXPRESS, HEAL, AND GROW”
+    </div>
+  </header>
 
-  <div class="container nav">
-    <div class="brand">MINDMEND</div>
-    <nav>
-      <ul>
-        <li><a href="index.html">HOME</a></li>
-        <li><a href="ai.html">MINDMEND AI</a></li>
-        <li><a href="journal.html">JOURNAL</a></li>
-        <li><a href="counselor.html">COUNSELOR</a></li>
-        <li><a href="contact.html">CONTACT</a></li>
-        <li><a href="login.html" id="accountLink">SIGN UP</a></li>
-        <li><button id="logoutBtn" class="btn" style="display:none">LOG OUT</button></li>
-      </ul>
-    </nav>
-  </div>
-  <div style="text-align:center;color:#fff;padding:6px 0 14px;opacity:.9">
-    “EMPOWERING STUDENTS TO EXPRESS, HEAL, AND GROW”
-  </div>
-</header>
-
-
- <main class="container section">
+  <main class="container section">
+    
   <h1 style="font-family:Playfair Display,serif;margin-top:0">Journal</h1>
   <div class="journal">
     <aside class="sidebar" id="jList" aria-live="polite" aria-label="Journal entries list">
@@ -43,15 +44,18 @@
       <!-- Entries will be rendered here -->
     </aside>
 
+      <!-- Entries will be rendered here -->
+    </aside>
     <div class="editor" aria-label="Journal editor">
+      <div class="toolbar">
+      </div>
       <input id="jTitle" class="input" placeholder="Title…" aria-label="Entry title" />
       <textarea id="jBody" rows="8" placeholder="Start writing..." aria-label="Entry body"></textarea>
-
       <div style="display:flex;gap:10px;align-items:center;margin-top:8px">
         <button id="jSave" class="btn" type="button">Save</button>
         <span id="jMsg" class="muted" role="status" aria-live="polite"></span>
       </div>
-
+      <!-- Selected-entry actions (hidden until you click a note on the left) -->
       <input id="jId" type="hidden" />
       <div id="jActions" style="display:none;gap:10px;align-items:center;margin-top:8px">
         <button id="jEdit" class="btn" type="button">Edit</button>
@@ -59,36 +63,35 @@
         <button id="jCancel" class="btn" type="button" style="display:none;background:#6b6e6b">Cancel</button>
         <button id="jDelete" class="btn" type="button" style="background:#a14a4a">Delete</button>
       </div>
+</div>
+
     </div>
   </div>
-</main>
 
+  </main>
   
   <footer class="container">
     <div>© <span id="year"></span> MindMend • All rights reserved.</div>
   </footer>
   <!-- Supabase client -->
   <!-- Supabase client must be first -->
-<!-- TinyMCE (load once, before app.js) -->
-<script src="https://cdn.jsdelivr.net/npm/tinymce@6.8.3/tinymce.min.js" referrerpolicy="origin"></script>
-
-<!-- Netlify-injected env (must come BEFORE any code that uses it) -->
-<script src="/env.js"></script>
-
-<!-- Supabase client (reads from env.js, not hard-coded) -->
 <script type="module">
   import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
-  if (!window.env?.SUPABASE_URL || !window.env?.SUPABASE_ANON_KEY) {
-    console.error("Missing SUPABASE env vars; check Netlify Environment variables and env.js build step.");
-  }
-  window.supabase = createClient(window.env.SUPABASE_URL, window.env.SUPABASE_ANON_KEY);
+  window.SUPABASE_URL = "https://pgpxmtkzgifspotnjrpi.supabase.co";
+  window.SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBncHhtdGt6Z2lmc3BvdG5qcnBpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTg4Mzc3MjQsImV4cCI6MjA3NDQxMzcyNH0.me3WRQM5CdGq8bAIRNMsk07lUqxkLUbeIRAgvrc_sYs";
+  window.supabase = createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY);
 </script>
 
 <!-- Core (auth/header/guard/boot) -->
 <script src="core.js"></script>
 
 <!-- Page-specific -->
+<!-- journal.html also needs TinyMCE before app.js: -->
+<script src="https://cdn.jsdelivr.net/npm/tinymce@6/tinymce.min.js" referrerpolicy="origin"></script>
 <script src="app.js"></script>
+ <script>
+(function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="lm88arw21cRHFouvUtDSU";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
 
+</script>
 </body>
 </html>

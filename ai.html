@@ -10,10 +10,106 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <style>
+    .chat-layout {
+      display: flex;
+      gap: 16px;
+      margin-top: 20px;
+      min-height: 500px; /* larger chat area */
+    }
+    #chatHistory {
+    width: 220px;
+    border-right: 1px solid #ccc;
+    padding: 10px;
+    background: #f9f9f9;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow-y: auto;       /* enable scrollbar */
+    max-height: 600px;      /* fixed height so it scrolls */
+    }
+    #chatHistory button {
+      padding: 8px;
+      font-weight: bold;
+      border: none;
+      border-radius: 6px;
+      background: #3B2C28;
+      color: #fff;
+      cursor: pointer;
+    }
+    #chatHistory button:hover {
+      background: #2a1e1b;
+    }
+    .chat-summary {
+      padding: 6px;
+      margin-bottom: 4px;
+      border-radius: 6px;
+      cursor: pointer;
+      background: #fff;
+      border: 1px solid #ddd;
+      font-size: 14px;
+    }
+    .chat-summary:hover {
+      background: #eee;
+    }
+    .chatwrap {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    #aiLog {
+      flex: 1;
+      overflow-y: auto;       /* enable scrollbar */
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      padding: 12px;
+      margin-bottom: 10px;
+      background: #fff;
+      font-size: 16px;
+      min-height: 400px;
+      max-height: 600px; 
+    }
+    .composer {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    #aiInput {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+    .btn {
+      padding: 8px 12px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      background: #3B2C28;
+      color: #fff;
+      font-weight: bold;
+    }
+    .btn:hover {
+      background: #2a1e1b;
+    }
+    .muted {
+      color: #666;
+      font-style: italic;
+    }
+    .chat-summary button {
+  float: right;
+  font-size: 14px;
+}
+.chat-summary button:hover {
+  color: red;
+}
+
+  </style>
 </head>
 <body>
   <!-- Your header/nav here (unchanged) -->
-   <header>
+  <header>
     <div class="container nav">
       <div class="brand">MINDMEND</div>
       <nav>
@@ -33,51 +129,49 @@
     </div>
   </header>
 
-
   <main class="container section">
     <h1 style="font-family:Playfair Display,serif;margin-top:0">MindMend AI</h1>
 
-    <div class="chatwrap">
-      <div id="aiLog" class="bubble" style="min-height:160px" aria-live="polite"></div>
+    <div class="chat-layout">
+      <!-- Chat history sidebar -->
+      <div id="chatHistory">
+        <button id="newChat">+ New Chat</button>
+        <!-- Chat summaries will be injected here by ai.js -->
+      </div>
 
-      <!-- (Optional) consent toggle if you want users to approve journal access -->
-      <label style="display:flex;gap:8px;align-items:center;margin:10px 0">
-        <input id="aiConsent" type="checkbox" checked />
-        <span class="muted">Allow AI to read my recent journals to personalize advice</span>
-      </label>
+      <!-- Chat window -->
+      <div class="chatwrap">
+        <div id="aiLog" aria-live="polite"></div>
 
-      <div class="composer">
-        <input id="aiInput" placeholder="Ask for support…" aria-label="Type your message" />
-        <button id="aiSend" class="btn" type="button">Send</button>
+        <label style="display:flex;gap:8px;align-items:center;margin:10px 0">
+          <input id="aiConsent" type="checkbox" checked />
+          <span class="muted">Allow AI to read my recent journals to personalize advice</span>
+        </label>
+
+        <div class="composer">
+          <input id="aiInput" placeholder="Ask for support…" aria-label="Type your message" />
+          <button id="aiSend" class="btn" type="button">Send</button>
+        </div>
       </div>
     </div>
   </main>
 
-  <!-- Your footer here (unchanged) -->
-
-  <!-- This is a test -->
-
   <!-- Supabase client FIRST -->
- <script src="/env.js"></script>
-<script type="module">
-  import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
-  if (!window.env?.SUPABASE_URL || !window.env?.SUPABASE_ANON_KEY) {
-    console.error("Missing SUPABASE env vars"); // This will show in browser console
-  }
-  window.supabase = createClient(window.env.SUPABASE_URL, window.env.SUPABASE_ANON_KEY);
-</script>
+  <script type="module">
+    import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+    window.SUPABASE_URL = "https://pgpxmtkzgifspotnjrpi.supabase.co";
+    window.SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBncHhtdGt6Z2lmc3BvdG5qcnBpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTg4Mzc3MjQsImV4cCI6MjA3NDQxMzcyNH0.me3WRQM5CdGq8bAIRNMsk07lUqxkLUbeIRAgvrc_sYs";
+    window.supabase = createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY);
+  </script>
 
   <!-- Core (auth/header/guard) -->
   <script src="core.js"></script>
 
   <!-- Page script (chat logic) -->
-  <!-- <script src="ai.js"></script> -->
+  <script src="ai.js"></script>
    <script>
 (function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="lm88arw21cRHFouvUtDSU";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
 
 </script>
-<!-- near the top or right before your app scripts -->
-<script src="/env.js"></script>
-
 </body>
 </html>
