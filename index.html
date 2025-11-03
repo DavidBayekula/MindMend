@@ -60,13 +60,11 @@
     <div>© <span id="year"></span> MindMend • All rights reserved.</div>
   </footer>
   <!-- Supabase client must be first -->
-<script src="/env.js"></script>
 <script type="module">
   import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
-  if (!window.env?.SUPABASE_URL || !window.env?.SUPABASE_ANON_KEY) {
-    console.error("Missing SUPABASE env vars"); // This will show in browser console
-  }
-  window.supabase = createClient(window.env.SUPABASE_URL, window.env.SUPABASE_ANON_KEY);
+  window.SUPABASE_URL = "https://pgpxmtkzgifspotnjrpi.supabase.co";
+  window.SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBncHhtdGt6Z2lmc3BvdG5qcnBpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTg4Mzc3MjQsImV4cCI6MjA3NDQxMzcyNH0.me3WRQM5CdGq8bAIRNMsk07lUqxkLUbeIRAgvrc_sYs";
+  window.supabase = createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY);
 </script>
 
 <!-- Core (auth/header/guard/boot) -->
@@ -76,8 +74,10 @@
 <!-- journal.html also needs TinyMCE before app.js: -->
 <script src="https://cdn.jsdelivr.net/npm/tinymce@6/tinymce.min.js" referrerpolicy="origin"></script>
 <script src="app.js"></script>
-<!-- near the top or right before your app scripts -->
-<script src="/env.js"></script>
+ <script>
+(function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="lm88arw21cRHFouvUtDSU";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
+
+</script>
 
 </body>
 </html>
