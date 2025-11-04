@@ -37,33 +37,19 @@
     
   <div class="card">
     <h2 style="margin-top:0">Search for University Counselors</h2>
-    <div class="searchbar">
-      <input id="counselorName" class="input" placeholder="Counselor Name (e.g., Cox)" />
-    <!-- Filter For counselor page-->
-      <select id="counselorUniv" class="input" aria-label="Select your UNC System Campus">
-        <option value="">Filter by Campus...</option>
-        <option value="Appalachian State University">Appalachian State University</option>
-        <option value="Duke University">Duke University</option>
-        <option value="East Carolina University">East Carolina University</option>
-        <option value="Elizabeth City State University">Elizabeth City State University</option>
-        <option value="Fayetteville State University">Fayetteville State University</option>
-        <option value="North Carolina A&T State University">North Carolina A&T State University (NC A&T)</option>
-        <option value="North Carolina Central University">North Carolina Central University (NCCU)</option>
-        <option value="NC State University">NC State University</option>
-        <option value="University of North Carolina at Asheville">UNC Asheville</option>
-        <option value="University of North Carolina at Chapel Hill">UNC Chapel Hill</option>
-        <option value="University of North Carolina at Charlotte">UNC Charlotte</option>
-        <option value="University of North Carolina at Greensboro">UNC Greensboro</option>
-        <option value="University of North Carolina at Pembroke">UNC Pembroke</option>
-        <option value="University of North Carolina School of the Arts">UNC School of the Arts (UNCSA)</option>
-        <option value="University of North Carolina Wilmington">UNC Wilmington</option>
-        <option value="Western Carolina University">Western Carolina University</option>
-        <option value="Winston-Salem State University">Winston-Salem State University (WSSU)</option>
-        <option value="North Carolina School of Science and Mathematics">NC School of Science and Mathematics (NCSSM)</option>
-      </select>
-
-      <button id="searchBtn" class="btn" type="button">SEARCH</button>
-    </div>
+      <div class="searchbar" style="display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 10px;">
+    <input id="counselorName" class="input" placeholder="Counselor Name (e.g., Cox)" />
+    <input id="counselorUniv" class="input" placeholder="University (e.g., Stanford)" />
+    <select id="counselorState" class="input">
+      <option value="">All States</option>
+      <option value="New York">New York</option>
+      <option value="Texas">Texas</option>
+      <option value="Massachusetts">Massachusetts</option>
+      <option value="California">California</option>
+      <option value="Virginia">Virginia</option>
+    </select>
+  <button id="searchBtn" class="btn" type="button">SEARCH</button>
+</div>
     <p id="resultsFor" class="muted" style="margin-top:12px;display:none">Showing results for …</p>
   </div>
   <div id="counselorResults" aria-live="polite"></div>
@@ -74,13 +60,11 @@
     <div>© <span id="year"></span> MindMend • All rights reserved.</div>
   </footer>
   <!-- Supabase client must be first -->
-<script src="/env.js"></script>
 <script type="module">
   import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
-  if (!window.env?.SUPABASE_URL || !window.env?.SUPABASE_ANON_KEY) {
-    console.error("Missing SUPABASE env vars"); // This will show in browser console
-  }
-  window.supabase = createClient(window.env.SUPABASE_URL, window.env.SUPABASE_ANON_KEY);
+  window.SUPABASE_URL = "https://pgpxmtkzgifspotnjrpi.supabase.co";
+  window.SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBncHhtdGt6Z2lmc3BvdG5qcnBpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTg4Mzc3MjQsImV4cCI6MjA3NDQxMzcyNH0.me3WRQM5CdGq8bAIRNMsk07lUqxkLUbeIRAgvrc_sYs";
+  window.supabase = createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY);
 </script>
 
   <!-- Core (auth/header/guard/boot) -->
@@ -91,9 +75,10 @@
   <script src="https://cdn.jsdelivr.net/npm/tinymce@6/tinymce.min.js" referrerpolicy="origin"></script>
   <script src="app.js"></script>
   <script src="counselors.js"></script>
-  <!-- near the top or right before your app scripts -->
-  <script src="/env.js"></script>
+   <script>
+(function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="lm88arw21cRHFouvUtDSU";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
 
+</script>
 
 </body>
 </html>
