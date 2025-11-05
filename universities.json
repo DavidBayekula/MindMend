@@ -1,0 +1,32 @@
+
+{
+  "California": [
+    "Stanford University",
+    "University of California, Berkeley"
+  ],
+  "Massachusetts": [
+    "Harvard University",
+    "Massachusetts Institute of Technology"
+  ],
+  "New York": [
+    "New York University",
+    "Columbia University"
+  ],
+  "North Carolina": [
+    "North Carolina Central University",
+    "Wake Technical Community College",
+    "North Carolina State University",
+    "Duke University",
+    "University of North Carolina at Chapel Hill",
+    "Appalachian State University",
+    "North Carolina A&T State University"
+  ],
+  "Texas": [
+    "University of Texas at Austin",
+    "Texas A&M University"
+  ],
+  "Virginia": [
+    "University of Virginia",
+    "Virginia Tech"
+  ]
+}
