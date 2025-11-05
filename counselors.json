@@ -773,5 +773,465 @@
     "phone": "",
     "linkUrl": "",
     "linkText": "More Info"
+  },
+  {
+    "name": "Bianca Aaron",
+    "university": "Stanford University",
+    "summary": "Licensed Marriage and Family Therapist",
+    "email": "",
+    "phone": "650-723-3785",
+    "linkUrl": "",
+    "linkText": "More Info"
+  },
+  {
+    "name": "James Bae",
+    "university": "Stanford University",
+    "summary": "Staff Psychiatrist",
+    "email": "",
+    "phone": "650-723-3785",
+    "linkUrl": "",
+    "linkText": "More Info"
+  },
+  {
+    "name": "Laurel Zappert Banks",
+    "university": "Stanford University",
+    "summary": "Staff Psychologist",
+    "email": "",
+    "phone": "650-723-3785",
+    "linkUrl": "",
+    "linkText": "More Info"
+  },
+  {
+    "name": "Christine Catipon",
+    "university": "Stanford University",
+    "summary": "Staff Psychologist",
+    "email": "",
+    "phone": "650-723-3785",
+    "linkUrl": "",
+    "linkText": "More Info"
+  },
+  {
+    "name": "Elizabeth Chaney",
+    "university": "Stanford University",
+    "summary": "Staff Psychologist",
+    "email": "",
+    "phone": "650-723-3785",
+    "linkUrl": "",
+    "linkText": "More Info"
+  },
+  {
+    "name": "Helen Hsu",
+    "university": "Stanford University",
+    "summary": "Director of Outreach, Psychologist",
+    "email": "",
+    "phone": "650-723-3785",
+    "linkUrl": "",
+    "linkText": "More Info"
+  },
+  {
+    "name": "Ang Li",
+    "university": "Stanford University",
+    "summary": "Licensed Marriage and Family Therapist",
+    "email": "",
+    "phone": "650-723-3785",
+    "linkUrl": "",
+    "linkText": "More Info"
+  },
+  {
+    "name": "Cierra Whatley",
+    "university": "Stanford University",
+    "summary": "Staff Psychologist",
+    "email": "",
+    "phone": "650-723-3785",
+    "linkUrl": "",
+    "linkText": "More Info"
+  },
+  {
+    "name": "Julia Anable",
+    "university": "Stanford University",
+    "summary": "Staff Counselor",
+    "email": "",
+    "phone": "650-723-3785",
+    "linkUrl": "",
+    "linkText": "More Info"
+  },
+  {
+    "name": "Gerald Shorty",
+    "university": "Stanford University",
+    "summary": "Staff Counselor",
+    "email": "",
+    "phone": "650-723-3785",
+    "linkUrl": "",
+    "linkText": "More Info"
+  },
+  {
+    "name": "Madeleine Janaki Kannan",
+    "university": "Stanford University",
+    "summary": "Staff Therapist",
+    "email": "",
+    "phone": "650-723-3785",
+    "linkUrl": "",
+    "linkText": "More Info"
+  },
+  {
+    "name": "Tegan Adams",
+    "university": "University of California, Berkeley",
+    "summary": "Licensed Psychologist",
+    "email": "",
+    "phone": "",
+    "linkUrl": "",
+    "linkText": "More Info"
+  },
+  {
+    "name": "Laura Alie",
+    "university": "University of California, Berkeley",
+    "summary": "Licensed Psychologist, Assistant Director, Hospital/ High-Risk Team",
+    "email": "",
+    "phone": "",
+    "linkUrl": "",
+    "linkText": "More Info"
+  },
+  {
+    "name": "Elizabeth Aranda",
+    "university": "University of California, Berkeley",
+    "summary": "Licensed Psychologist, Wellness Coordinator at Multicultural Community Center & bridges Multicultural Resource Center",
+    "email": "",
+    "phone": "",
+    "linkUrl": "",
+    "linkText": "More Info"
+  },
+  {
+    "name": "Cansu Badstubner",
+    "university": "University of California, Berkeley",
+    "summary": "Licensed Marriage and Family Therapist, Referral Coordinator",
+    "email": "",
+    "phone": "",
+    "linkUrl": "",
+    "linkText": "More Info"
+  },
+  {
+    "name": "Bianca Barrios-Montoya",
+    "university": "University of California, Berkeley",
+    "summary": "Licensed Psychologist, Undocumented Student Program Counselor",
+    "email": "",
+    "phone": "",
+    "linkUrl": "",
+    "linkText": "More Info"
+  },
+  {
+    "name": "Monica Becerra",
+    "university": "University of California, Berkeley",
+    "summary": "Licensed Psychologist",
+    "email": "",
+    "phone": "",
+    "linkUrl": "",
+    "linkText": "More Info"
+  },
+  {
+    "name": "William Berkhout",
+    "university": "University of California, Berkeley",
+    "summary": "Licensed Psychologist",
+    "email": "",
+    "phone": "",
+    "linkUrl": "",
+    "linkText": "More Info"
+  },
+  {
+    "name": "Sasha Blum",
+    "university": "University of California, Berkeley",
+    "summary": "Licensed Psychologist",
+    "email": "",
+    "phone": "",
+    "linkUrl": "",
+    "linkText": "More Info"
+  },
+  {
+    "name": "Nicole Buitrago",
+    "university": "University of California, Berkeley",
+    "summary": "Licensed Psychologist",
+    "email": "",
+    "phone": "",
+    "linkUrl": "",
+    "linkText": "More Info"
+  },
+  {
+    "name": "Don Capone",
+    "university": "University of California, Berkeley",
+    "summary": "Licensed Psychologist, Haas School of Business Counselor",
+    "email": "",
+    "phone": "",
+    "linkUrl": "",
+    "linkText": "More Info"
+  },
+  {
+    "name": "Kin Ming Chan",
+    "university": "University of California, Berkeley",
+    "summary": "Licensed Psychologist",
+    "email": "",
+    "phone": "",
+    "linkUrl": "",
+    "linkText": "More Info"
+  },
+  {
+    "name": "Richard Chiovarelli",
+    "university": "University of California, Berkeley",
+    "summary": "Licensed Psychologist",
+    "email": "",
+    "phone": "",
+    "linkUrl": "",
+    "linkText": "More Info"
+  },
+  {
+    "name": "Mar Chung",
+    "university": "University of California, Berkeley",
+    "summary": "Licensed Psychologist",
+    "email": "",
+    "phone": "",
+    "linkUrl": "",
+    "linkText": "More Info"
+  },
+  {
+    "name": "Ebony Ellis",
+    "university": "University of California, Berkeley",
+    "summary": "Licensed Clinical Social Worker",
+    "email": "",
+    "phone": "",
+    "linkUrl": "",
+    "linkText": "More Info"
+  },
+  {
+    "name": "Laura Gramling",
+    "university": "University of California, Berkeley",
+    "summary": "Licensed Psychologist",
+    "email": "",
+    "phone": "",
+    "linkUrl": "",
+    "linkText": "More Info"
+  },
+  {
+    "name": "Denise Goitia",
+    "university": "University of California, Berkeley",
+    "summary": "Licensed Clinical Social Worker",
+    "email": "",
+    "phone": "",
+    "linkUrl": "",
+    "linkText": "More Info"
+  },
+  {
+    "name": "Matt Goodman",
+    "university": "University of California, Berkeley",
+    "summary": "Licensed Psychologist, Assistant Director Quality Assurance and Research",
+    "email": "",
+    "phone": "",
+    "linkUrl": "",
+    "linkText": "More Info"
+  },
+  {
+    "name": "Carrie Guthrie",
+    "university": "University of California, Berkeley",
+    "summary": "Licensed Clinical Social Worker, Clinical Director",
+    "email": "",
+    "phone": "",
+    "linkUrl": "",
+    "linkText": "More Info"
+  },
+  {
+    "name": "Amber Jaiza Jones",
+    "university": "University of California, Berkeley",
+    "summary": "Licensed Clinical Social Worker, Co-Chair, University Health Service's Transgender Care Team",
+    "email": "",
+    "phone": "",
+    "linkUrl": "https://uhs.berkeley.edu/about-uhs/specialized-support/transgender-and-gender-diverse-care",
+    "linkText": "More Info"
+  },
+  {
+    "name": "Holly Landsbaum",
+    "university": "University of California, Berkeley",
+    "summary": "Licensed Clinical Social Worker",
+    "email": "",
+    "phone": "",
+    "linkUrl": "",
+    "linkText": "More Info"
+  },
+  {
+    "name": "Jeff Lee",
+    "university": "University of California, Berkeley",
+    "summary": "Licensed Clinical Social Worker",
+    "email": "",
+    "phone": "",
+    "linkUrl": "",
+    "linkText": "More Info"
+  },
+  {
+    "name": "Karen Lee Tsugawa",
+    "university": "University of California, Berkeley",
+    "summary": "Licensed Marriage and Family Therapist, Clinical Coordinator",
+    "email": "",
+    "phone": "",
+    "linkUrl": "",
+    "linkText": "More Info"
+  },
+  {
+    "name": "Sara Lipton-Carey",
+    "university": "University of California, Berkeley",
+    "summary": "Licensed Clinical Social Worker",
+    "email": "",
+    "phone": "",
+    "linkUrl": "",
+    "linkText": "More Info"
+  },
+  {
+    "name": "Chris McLean",
+    "university": "University of California, Berkeley",
+    "summary": "Licensed Psychologist, Assistant Director of Career and Academic Programs",
+    "email": "",
+    "phone": "",
+    "linkUrl": "",
+    "linkText": "More Info"
+  },
+  {
+    "name": "Cynthia Medina",
+    "university": "University of California, Berkeley",
+    "summary": "Licensed Psychologist",
+    "email": "",
+    "phone": "",
+    "linkUrl": "",
+    "linkText": "More Info"
+  },
+  {
+    "name": "Gina Midili",
+    "university": "University of California, Berkeley",
+    "summary": "Licensed Psychologist",
+    "email": "",
+    "phone": "",
+    "linkUrl": "",
+    "linkText": "More Info"
+  },
+  {
+    "name": "Kusha Murarka",
+    "university": "University of California, Berkeley",
+    "summary": "Licensed Psychologist, Director of Training",
+    "email": "",
+    "phone": "",
+    "linkUrl": "",
+    "linkText": "More Info"
+  },
+  {
+    "name": "Tobirus Newby",
+    "university": "University of California, Berkeley",
+    "summary": "Licensed Clinical Social Worker, Assistant Director of Campus Outreach & Engagement",
+    "email": "",
+    "phone": "",
+    "linkUrl": "",
+    "linkText": "More Info"
+  },
+  {
+    "name": "Veronica Orozco",
+    "university": "University of California, Berkeley",
+    "summary": "Licensed Psychologist, Satellite Office Coordinator",
+    "email": "",
+    "phone": "",
+    "linkUrl": "",
+    "linkText": "More Info"
+  },
+  {
+    "name": "Diana Peña",
+    "university": "University of California, Berkeley",
+    "summary": "Licensed Psychologist, Undocumented Student Program Counselor",
+    "email": "",
+    "phone": "",
+    "linkUrl": "",
+    "linkText": "More Info"
+  },
+  {
+    "name": "Bini Sebastian",
+    "university": "University of California, Berkeley",
+    "summary": "Licensed Psychologist",
+    "email": "",
+    "phone": "",
+    "linkUrl": "",
+    "linkText": "More Info"
+  },
+  {
+    "name": "Lexi Session",
+    "university": "University of California, Berkeley",
+    "summary": "Licensed Clinical Social Worker",
+    "email": "",
+    "phone": "",
+    "linkUrl": "",
+    "linkText": "More Info"
+  },
+  {
+    "name": "Junichi Shimaoka",
+    "university": "University of California, Berkeley",
+    "summary": "Licensed Psychologist",
+    "email": "",
+    "phone": "",
+    "linkUrl": "",
+    "linkText": "More Info"
+  },
+  {
+    "name": "Xiaoxia Song",
+    "university": "University of California, Berkeley",
+    "summary": "Licensed Psychologist",
+    "email": "",
+    "phone": "",
+    "linkUrl": "",
+    "linkText": "More Info"
+  },
+  {
+    "name": "Emily Taplin",
+    "university": "University of California, Berkeley",
+    "summary": "Licensed Clinical Social Worker, Care Manager",
+    "email": "",
+    "phone": "",
+    "linkUrl": "",
+    "linkText": "More Info"
+  },
+  {
+    "name": "Nancy Ellen Tavolacci-Arista",
+    "university": "University of California, Berkeley",
+    "summary": "Licensed Clinical Social Worker",
+    "email": "",
+    "phone": "",
+    "linkUrl": "",
+    "linkText": "More Info"
+  },
+  {
+    "name": "Sam Tourek",
+    "university": "University of California, Berkeley",
+    "summary": "Licensed Psychologist",
+    "email": "",
+    "phone": "",
+    "linkUrl": "",
+    "linkText": "More Info"
+  },
+  {
+    "name": "Sheela Vashishtha",
+    "university": "University of California, Berkeley",
+    "summary": "Licensed Clinical Social Worker",
+    "email": "",
+    "phone": "",
+    "linkUrl": "",
+    "linkText": "More Info"
+  },
+  {
+    "name": "Linda Zaruba",
+    "university": "University of California, Berkeley",
+    "summary": "Licensed Psychologist",
+    "email": "",
+    "phone": "",
+    "linkUrl": "",
+    "linkText": "More Info"
+  },
+  {
+    "name": "Christine Zhou",
+    "university": "University of California, Berkeley",
+    "summary": "Licensed Psychologist, Director of Operations for the Global Institute",
+    "email": "",
+    "phone": "",
+    "linkUrl": "",
+    "linkText": "More Info"
   }
+
 ]

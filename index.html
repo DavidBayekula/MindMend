@@ -9,10 +9,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
-
 </head>
 <body>
-  
+  <!-- ==================== HEADER (unchanged) ==================== -->
   <header>
     <div class="container nav">
       <div class="brand">MINDMEND</div>
@@ -33,51 +32,78 @@
     </div>
   </header>
 
-  <main class="container section">
-    
-  <div class="hero">
-    <div>
-      <h1 class="tagline">A Mental Health Support App for College Students</h1>
-      <p class="lead">
-        MindMend is here to help. Our platform offers journaling tools,
-        an AI chat for real-time support, and resources to connect you
-        with professional therapists.
-      </p>
-    </div>
-    <div class="card brain" aria-label="Brain illustration">
-      <svg width="140" height="140" viewBox="0 0 200 200" fill="none" stroke="#7C8C84" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" role="img" aria-hidden="true">
-        <path d="M70 80c-18-30 22-48 38-26 10-20 44-10 44 12 24 0 32 34 10 44 6 18-12 34-30 28-10 18-36 18-46 0-20 10-40-10-28-28-22-10-14-44 12-42" />
-      </svg>
-    </div>
-    <div class="banner-quote">
-      <p style="margin:0;font-weight:600">“Your mind matters. Let’s heal together.”</p>
-    </div>
-  </div>
+  <!-- ==================== HERO (exact mockup) ==================== -->
+  <section class="hero-section">
+    <div class="container hero-grid">
+      <div class="hero-text">
+        <h1>Your space to<br><span>reflect, chat, and<br>heal</span></h1>
+        <p class="lead">
+          MindMend helps college students manage mental health<br>
+          with tools for journaling, AI chat, and real therapist connections.
+        </p>
+        <button class="cta-big">Start healing today</button>
+      </div>
 
-  </main>
-  
+    <img src="https://cdn.jsdelivr.net/gh/DavidBayekula/MindMendTesting@main/girl_reading-optim.jpg"
+       alt="Student journaling"
+       width="480" height="480"
+       class="hero-illo-img"> 
+
+      <div class="feature-cards">
+        <a href="ai.html" class="fcard">
+          <div class="icon">💬</div>
+          <div class="title">AI Chat</div>
+        </a>
+        <a href="journal.html" class="fcard">
+          <div class="icon">📖</div>
+          <div class="title">Daily Journal</div>
+        </a>
+        <a href="counselor.html" class="fcard">
+          <div class="icon">👥</div>
+          <div class="title">Find a Counselor</div>
+        </a>
+      </div>
+    </div>
+
+ <div class="container banner-quote">
+  <p id="daily-quote">…</p>
+  <p id="daily-author" style="font-size:16px; margin-top:8px; opacity:.85;"></p>
+</div>
+  </section>
+
   <footer class="container">
     <div>© <span id="year"></span> MindMend • All rights reserved.</div>
   </footer>
-  <!-- Supabase client must be first -->
-<script type="module">
-  import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
-  window.SUPABASE_URL = "https://pgpxmtkzgifspotnjrpi.supabase.co";
-  window.SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBncHhtdGt6Z2lmc3BvdG5qcnBpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTg4Mzc3MjQsImV4cCI6MjA3NDQxMzcyNH0.me3WRQM5CdGq8bAIRNMsk07lUqxkLUbeIRAgvrc_sYs";
-  window.supabase = createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY);
-</script>
 
-<!-- Core (auth/header/guard/boot) -->
-<script src="core.js"></script>
+  <!-- Supabase + Core (unchanged) -->
+  <script type="module">
+    import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+    window.SUPABASE_URL = "https://pgpxmtkzgifspotnjrpi.supabase.co";
+    window.SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBncHhtdGt6Z2lmc3BvdG5qcnBpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTg4Mzc3MjQsImV4cCI6MjA3NDQxMzcyNH0.me3WRQM5CdGq8bAIRNMsk07lUqxkLUbeIRAgvrc_sYs";
+    window.supabase = createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY);
 
-<!-- Page-specific -->
-<!-- journal.html also needs TinyMCE before app.js: -->
-<script src="https://cdn.jsdelivr.net/npm/tinymce@6/tinymce.min.js" referrerpolicy="origin"></script>
-<script src="app.js"></script>
- <script>
-(function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="lm88arw21cRHFouvUtDSU";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
+  // Load quotes.json
+  const response = await fetch('quotes.json');
+  const quotes = await response.json();
 
-</script>
+  // Daily deterministic picker
+  const start = new Date('2025-01-01').setHours(0,0,0,0);
+  const today = new Date().setHours(0,0,0,0);
+  const dayIndex = Math.floor((today - start) / 86400000) % quotes.length;
+  const { quote, author } = quotes[dayIndex];
+
+  // Inject
+  document.getElementById('daily-quote').textContent = `“${quote}”`;
+  document.getElementById('daily-author').textContent = `— ${author}`;
+  </script>
+  <script src="core.js"></script>
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+    // Simple CTA → scroll to features (or open login if logged out)
+    document.querySelector('.cta-big').addEventListener('click', () => {
+      document.querySelector('.feature-cards').scrollIntoView({ behavior: 'smooth' });
+    });
+  </script>
 
 </body>
 </html>
