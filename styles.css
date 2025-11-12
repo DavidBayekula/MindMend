@@ -332,3 +332,72 @@ nav a.active::after {
 nav a.active::after {
   width: 70%;
 }
+
+/* ——— TOOLTIP FOR EMOJI HOVER ——— */
+.feeling-in-list,
+.feeling-chip {
+  position: relative;
+  cursor: pointer;
+}
+
+/* Tooltip text */
+.feeling-in-list::after,
+.feeling-chip::after {
+  content: attr(title);
+  position: absolute;
+  bottom: 120%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--charcoal);
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 500;
+  padding: 6px 10px;
+  border-radius: 8px;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+  z-index: 10;
+  pointer-events: none;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+/* Arrow */
+.feeling-in-list::before,
+.feeling-chip::before {
+  content: '';
+  position: absolute;
+  bottom: 110%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: var(--charcoal);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+  z-index: 10;
+}
+
+/* Show on hover/focus */
+.feeling-in-list:hover::after,
+.feeling-in-list:hover::before,
+.feeling-chip:hover::after,
+.feeling-chip:hover::before,
+.feeling-in-list:focus-visible::after,
+.feeling-in-list:focus-visible::before,
+.feeling-chip:focus-visible::after,
+.feeling-chip:focus-visible::before {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Mobile: tap = no tooltip (optional) */
+@media (max-width: 768px) {
+  .feeling-in-list::after,
+  .feeling-chip::after,
+  .feeling-in-list::before,
+  .feeling-chip::before {
+    display: none;
+  }
+}

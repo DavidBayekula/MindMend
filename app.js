@@ -137,7 +137,24 @@ function setFeeling(emoji) {
   const d = new Date(dtStr);
   const day = String(d.getDate()).padStart(2,'0');
   const mon = d.toLocaleString(undefined, { month: 'short' }).toUpperCase();
-  return `<div class="datepill"><div>${day}</div><small>${mon}</small></div>${feeling ? `<span style="margin-left:6px;font-size:1.4rem">${feeling}</span>` : ''}`;
+
+  // Map emoji → name
+  const emojiNames = {
+    'happy': 'Happy',
+    'calm': 'Calm',
+    'neutral': 'Neutral',
+    'sad': 'Sad',
+    'anxious': 'Anxious',
+    'angry': 'Angry',
+    'love': 'Love'
+  };
+
+  const name = feeling ? emojiNames[feeling] || '' : '';
+  const emojiSpan = feeling 
+    ? `<span class="feeling-in-list" data-emoji="${feeling}" title="${name}" aria-label="${name}">${feeling}</span>`
+    : '';
+
+  return `<div class="datepill"><div>${day}</div><small>${mon}</small></div>${emojiSpan}`;
 }
 
   function setMode(next){
