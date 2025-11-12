@@ -74,7 +74,6 @@ function wireJournal() {
   const jBodyEl = document.getElementById('jBody'); // textarea
   const jSave   = document.getElementById('jSave');
   const jMsg    = document.getElementById('jMsg');
-
   const jNew    = document.getElementById('jNew');
   const jActions= document.getElementById('jActions');
   const jId     = document.getElementById('jId');
@@ -82,6 +81,16 @@ function wireJournal() {
   const jUpdate = document.getElementById('jUpdate');
   const jCancel = document.getElementById('jCancel');
   const jDelete = document.getElementById('jDelete');
+  const feelingsPicker = document.querySelector('.feelings-picker');
+  let selectedFeeling = null;               // current emoji (or null)
+
+// Helper: set UI + internal state
+function setFeeling(emoji) {
+  selectedFeeling = emoji;
+  feelingsPicker.querySelectorAll('.feeling-chip').forEach(b => {
+    b.classList.toggle('selected', b.dataset.emoji === emoji);
+  });
+}
 
   // TinyMCE init (promise so we can await it)
   let tinyReady = null;
@@ -98,6 +107,13 @@ function wireJournal() {
       content_style: 'body{font-family:Inter,system-ui,sans-serif;font-size:14px;line-height:1.6;}'
     });
   }
+
+  feelingsPicker?.addEventListener('click', e => {
+  const chip = e.target.closest('.feeling-chip');
+  if (!chip) return;
+  const emoji = chip.dataset.emoji ?? null;   // clear button has no data-emoji
+  setFeeling(emoji);
+});
 
   // Local state
   let current = null;   // selected entry
@@ -117,12 +133,12 @@ function wireJournal() {
   }
 
   // UI helpers
-  function datePill(dtStr){
-    const d = new Date(dtStr);
-    const day = String(d.getDate()).padStart(2,'0');
-    const mon = d.toLocaleString(undefined, { month: 'short' }).toUpperCase();
-    return `<div class="datepill"><div>${day}</div><small>${mon}</small></div>`;
-  }
+  function datePill(dtStr, feeling = '') {
+  const d = new Date(dtStr);
+  const day = String(d.getDate()).padStart(2,'0');
+  const mon = d.toLocaleString(undefined, { month: 'short' }).toUpperCase();
+  return `<div class="datepill"><div>${day}</div><small>${mon}</small></div>${feeling ? `<span style="margin-left:6px;font-size:1.4rem">${feeling}</span>` : ''}`;
+}
 
   function setMode(next){
     mode = next;
@@ -178,7 +194,7 @@ function wireJournal() {
       div.className = 'entry';
       div.setAttribute('role','button');
       div.setAttribute('tabindex','0');
-      div.innerHTML = `${datePill(e.created_at)}
+      div.innerHTML = `${datePill(e.created_at, e.feeling)}
         <div><strong>${e.title || '(Untitled)'}</strong>
         <p class="muted" style="margin:6px 0 0">${preview}${preview.length===80?'…':''}</p></div>`;
       div.addEventListener('click', ()=>{
@@ -186,6 +202,7 @@ function wireJournal() {
         if (jId)     jId.value    = e.id;
         if (jTitle)  jTitle.value = e.title || '';
         setBody(e.body || '');
+        setFeeling(e.feeling ?? null);
         setMode('view');
       });
       div.addEventListener('keydown', (ev)=>{ if (ev.key === 'Enter' || ev.key === ' ') div.click(); });
@@ -210,6 +227,7 @@ function wireJournal() {
     if (jTitle) jTitle.value = '';
     setBody('');
     setMode('compose');
+    setFeeling(null);
   });
 
   jSave?.addEventListener('click', async ()=>{
@@ -220,7 +238,7 @@ function wireJournal() {
       return;
     }
     try {
-      await journalCreate({ title, body });
+      await journalCreate({ title, body, feeling: selectedFeeling });
       if (jTitle) jTitle.value = '';
       setBody('');
       jMsg.textContent = 'Saved.';
@@ -242,6 +260,7 @@ function wireJournal() {
     if (jTitle) jTitle.value = current.title || '';
     setBody(current.body || '');
     setMode('view');
+    setFeeling(current?.feeling ?? null);
   });
 
   jUpdate?.addEventListener('click', async ()=>{
@@ -254,7 +273,7 @@ function wireJournal() {
       return;
     }
     try {
-      const updated = await journalUpdate(id, { title, body });
+      const updated = await journalUpdate(id, { title, body, feeling: selectedFeeling });
       current = updated;
       jMsg.textContent = 'Updated.';
       setMode('view');

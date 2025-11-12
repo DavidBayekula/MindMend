@@ -11,9 +11,7 @@
   <link rel="stylesheet" href="styles.css">
 
 </head>
-<body>
-  
-  
+<body>  
     <!-- Rich text editor -->
 <!-- <script src="https://cdn.jsdelivr.net/npm/tinymce@6/tinymce.min.js" referrerpolicy="origin"></script> -->
     <header>
@@ -49,6 +47,16 @@
     </aside>
     <div class="editor" aria-label="Journal editor">
       <div class="toolbar">
+      </div>
+      <div class="feelings-picker" role="group" aria-label="Select your current feeling">
+        <button type="button" class="feeling-chip" data-emoji="😊" aria-label="Happy">😊</button>
+        <button type="button" class="feeling-chip" data-emoji="🙂" aria-label="Calm">🙂</button>
+        <button type="button" class="feeling-chip" data-emoji="😐" aria-label="Neutral">😐</button>
+        <button type="button" class="feeling-chip" data-emoji="😔" aria-label="Sad">😔</button>
+        <button type="button" class="feeling-chip" data-emoji="😰" aria-label="Anxious">😰</button>
+        <button type="button" class="feeling-chip" data-emoji="😡" aria-label="Angry">😡</button>
+        <button type="button" class="feeling-chip" data-emoji="❤️" aria-label="Love">❤️</button>
+        <button type="button" class="feeling-chip clear" aria-label="Clear feeling">✕</button>
       </div>
       <input id="jTitle" class="input" placeholder="Title…" aria-label="Entry title" />
       <textarea id="jBody" rows="8" placeholder="Start writing..." aria-label="Entry body"></textarea>
