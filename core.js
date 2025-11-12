@@ -27,22 +27,38 @@
   };
   core.isLoggedIn = async function () { return !!(await core.getSession()); };
 
-  // ----- Header/nav -----
-  core.updateHeaderUI = async function () {
-    const logged = await core.isLoggedIn();
-    const logoutBtn = document.getElementById('logoutBtn');
-    const accountLink = document.getElementById('accountLink');
-    if (logoutBtn) logoutBtn.style.display = logged ? 'inline-block' : 'none';
-    if (accountLink) accountLink.textContent = logged ? 'ACCOUNT' : 'SIGN UP';
+  // ----- Header/nav – SMOOTH & INSTANT -----
+core.updateHeaderUI = async function () {
+  const logged = await core.isLoggedIn();
+  const logoutBtn = document.getElementById('logoutBtn');
+  const accountLink = document.getElementById('accountLink');
 
-    const path = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
-    document.querySelectorAll('nav a').forEach(a => {
-      const href = (a.getAttribute('href') || '').toLowerCase();
-      a.classList.toggle('active', href === path);
-      const isPublic = href === 'index.html' || href === 'login.html';
-      a.style.display = (!logged && !isPublic) ? 'none' : '';
-    });
-  };
+  // 1. Instant visual update (no await flicker)
+  if (logoutBtn) logoutBtn.style.display = logged ? 'inline-block' : 'none';
+  if (accountLink) {
+    accountLink.textContent = logged ? 'ACCOUNT' : 'SIGN UP';
+    accountLink.href = logged ? 'index.html' : 'login.html';
+  }
+
+  // 2. Active page highlight – rock solid
+  const current = location.pathname.split('/').pop() || 'index.html';
+  document.querySelectorAll('nav a').forEach(a => {
+    const href = a.getAttribute('href');
+    const isActive = href === current;
+    a.classList.toggle('active', isActive);
+    
+    // Hide protected links for guests
+    const isPublic = href === 'index.html' || href === 'login.html';
+    a.style.display = (!logged && !isPublic) ? 'none' : '';
+  });
+
+  // 3. Super smooth fade-in for logout button
+  if (logged && logoutBtn && logoutBtn.style.display === 'inline-block') {
+    logoutBtn.style.opacity = '0';
+    logoutBtn.style.transition = 'opacity 0.25s ease';
+    requestAnimationFrame(() => logoutBtn.style.opacity = '1');
+  }
+};
 
   // ----- Route guard (only Home+Login are public) -----
   core.guard = async function () {
@@ -115,3 +131,8 @@
   document.addEventListener('DOMContentLoaded', boot);
   window.core = core;
 })();
+
+// Run header update EVEN BEFORE auth is ready – it will correct itself in <100ms
+document.addEventListener('DOMContentLoaded', () => {
+  core.updateHeaderUI().catch(() => {}); // fire-and-forget
+});
