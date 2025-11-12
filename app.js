@@ -140,18 +140,18 @@ function setFeeling(emoji) {
 
   // Map emoji → name
   const emojiNames = {
-    'happy': 'Happy',
-    'calm': 'Calm',
-    'neutral': 'Neutral',
-    'sad': 'Sad',
-    'anxious': 'Anxious',
-    'angry': 'Angry',
-    'love': 'Love'
+    '😊': 'Happy',
+    '🙂': 'Calm',
+    '😐': 'Neutral',
+    '😔': 'Sad',
+    '😰': 'Anxious',
+    '😡': 'Angry',
+    '❤️': 'Love'
   };
 
   const name = feeling ? emojiNames[feeling] || '' : '';
   const emojiSpan = feeling 
-    ? `<span class="feeling-in-list" data-emoji="${feeling}" title="${name}" aria-label="${name}">${feeling}</span>`
+    ? `<span class="feeling-in-list" data-emoji="${feeling}" aria-label="${name}">${feeling}</span>`
     : '';
 
   return `<div class="datepill"><div>${day}</div><small>${mon}</small></div>${emojiSpan}`;

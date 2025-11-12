@@ -343,7 +343,7 @@ nav a.active::after {
 /* Tooltip text */
 .feeling-in-list::after,
 .feeling-chip::after {
-  content: attr(title);
+  content: attr(aria-label);
   position: absolute;
   bottom: 120%;
   left: 50%;
