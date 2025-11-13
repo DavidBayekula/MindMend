@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ---- YOUR SLACK WEBHOOK (DELETE AFTER PROJECT) ----
-  const SLACK_WEBHOOK_URL = "https://hooks.slack.com/services/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";
+  const SLACK_WEBHOOK_URL = "https://hooks.slack.com/services/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";
 
   // ---- Validation ----
   const validate = () => {
