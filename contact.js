@@ -1,75 +1,84 @@
-// contact.js (frontend)
+// contact.js – direct to Slack (no backend)
 document.addEventListener("DOMContentLoaded", () => {
-  const card      = document.querySelector(".card.contact-form");
-  const nameInput = card.querySelector("input[placeholder='Your name']");
-  const emailInput= card.querySelector("input[placeholder='Your email']");
-  const subjInput = card.querySelector("input[placeholder='Subject']");
-  const msgInput  = card.querySelector("textarea[placeholder='Type your message…']");
-  const sendBtn   = card.querySelector(".btn");
+  const formCard   = document.querySelector(".card.contact-form");
+  const nameInput  = formCard.querySelector("input[placeholder='Your name']");
+  const emailInput = formCard.querySelector("input[placeholder='Your email']");
+  const subjInput  = formCard.querySelector("input[placeholder='Subject']");
+  const msgInput   = formCard.querySelector("textarea[placeholder='Type your message…']");
+  const sendBtn    = formCard.querySelector(".btn");
 
-  // Optional honeypot
-  let honeypot = card.querySelector("input[name='website']");
+  // ---- Honeypot (spam protection) ----
+  let honeypot = formCard.querySelector("input[name='website']");
   if (!honeypot) {
     honeypot = document.createElement("input");
     honeypot.type = "text";
     honeypot.name = "website";
-    honeypot.style.display = "none";
-    card.appendChild(honeypot);
+    honeypot.tabIndex = -1;
+    honeypot.autocomplete = "off";
+    honeypot.style.position = "absolute";
+    honeypot.style.left = "-9999px";
+    formCard.appendChild(honeypot);
   }
 
-  const EDGE_URL = "https://<your-project-ref>.functions.supabase.co/contact-to-slack";
+  // ---- YOUR SLACK WEBHOOK (DELETE AFTER PROJECT) ----
+  const SLACK_WEBHOOK_URL = "https://hooks.slack.com/services/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";
 
-  function validate() {
+  // ---- Validation ----
+  const validate = () => {
     const name = nameInput.value.trim();
     const email = emailInput.value.trim();
     const message = msgInput.value.trim();
-    if (!name || !email || !message) return "Please fill in name, email, and message.";
-    if (!/^\S+@\S+\.\S+$/.test(email)) return "Please enter a valid email address.";
+
+    if (!name || !email || !message) return "Fill in name, email, and message.";
+    if (!/^\S+@\S+\.\S+$/.test(email)) return "Valid email required.";
     if (honeypot.value) return "Bot detected.";
     return null;
-  }
+  };
 
+  // ---- Submit handler ----
   sendBtn.addEventListener("click", async (e) => {
     e.preventDefault();
     const err = validate();
     if (err) return alert(err);
 
     sendBtn.disabled = true;
-    const prev = sendBtn.textContent;
+    const oldText = sendBtn.textContent;
     sendBtn.textContent = "Sending…";
 
     const payload = {
-      name: nameInput.value.trim(),
-      email: emailInput.value.trim(),
-      subject: subjInput.value.trim(),
-      message: msgInput.value.trim(),
+      text: "*New Contact Form Submission*",
+      blocks: [
+        { type: "section", text: { type: "mrkdwn", text: "*New message via MindMend*" } },
+        { type: "divider" },
+        {
+          type: "section",
+          fields: [
+            { type: "mrkdwn", text: `*Name:*\n${nameInput.value.trim()}` },
+            { type: "mrkdwn", text: `*Email:*\n${emailInput.value.trim()}` },
+            { type: "mrkdwn", text: `*Subject:*\n${subjInput.value.trim() || "—"}` },
+          ],
+        },
+        { type: "section", text: { type: "mrkdwn", text: `*Message:*\n${msgInput.value.trim()}` } },
+        { type: "context", elements: [{ type: "mrkdwn", text: `_${new Date().toLocaleString()}_` }] },
+      ],
     };
 
     try {
-      const res = await fetch(EDGE_URL, {
+      const res = await fetch(SLACK_WEBHOOK_URL, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          // If you enable function auth, include your anon key:
-          // "Authorization": "Bearer " + window.SUPABASE_ANON_KEY
-        },
         body: JSON.stringify(payload),
       });
 
-      const data = await res.json().catch(() => ({}));
-      if (!res.ok || data.error) throw new Error(data.error || "Request failed");
+      if (!res.ok) throw new Error("Slack rejected the request");
 
-      alert("Message received! We’ll reach out soon.");
-      nameInput.value = "";
-      emailInput.value = "";
-      subjInput.value = "";
-      msgInput.value = "";
-    } catch (e) {
-      console.error(e);
-      alert("We couldn’t send your message. Please try again later.");
+      alert("Message sent! We'll get back to you soon.");
+      nameInput.value = emailInput.value = subjInput.value = msgInput.value = "";
+    } catch (err) {
+      console.error(err);
+      alert("Failed to send. Try emailing Mindmend@outlook.com directly.");
     } finally {
       sendBtn.disabled = false;
-      sendBtn.textContent = prev;
+      sendBtn.textContent = oldText;
     }
   });
 });
