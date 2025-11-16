@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${window.SUPABASE_ANON_KEY}`
+          //"Authorization": `Bearer ${window.SUPABASE_ANON_KEY}`
         },
         body: JSON.stringify(payload),
       });
