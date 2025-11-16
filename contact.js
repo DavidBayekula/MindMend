@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
         headers: {
           "Content-Type": "application/json",
           // Optional: Add auth if you secure the function
-          // "Authorization": `Bearer ${window.SUPABASE_ANON_KEY}`
+          "Authorization": `Bearer ${window.SUPABASE_ANON_KEY}`
         },
         body: JSON.stringify(payload),
       });
