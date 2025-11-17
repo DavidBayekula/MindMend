@@ -1,1 +1,1 @@
-"={{ $binary.file.data }}"
+{{ $binary.file.data }}
