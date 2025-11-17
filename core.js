@@ -36,32 +36,37 @@ core.getUserEmail = async function () {
   return user?.email ?? null;
 };
 
-  // ----- Header/nav – SMOOTH & INSTANT -----
-core.updateHeaderUI = async function () {
+ core.updateHeaderUI = async function () {
   const logged = await core.isLoggedIn();
   const logoutBtn = document.getElementById('logoutBtn');
   const accountLink = document.getElementById('accountLink');
 
-  // 1. Instant visual update (no await flicker)
+  // 1. Auth UI
   if (logoutBtn) logoutBtn.style.display = logged ? 'inline-block' : 'none';
   if (accountLink) {
     accountLink.textContent = logged ? 'ACCOUNT' : 'SIGN UP';
-    accountLink.href = logged ? 'index.html' : 'login.html';
+    accountLink.href = logged ? 'account.html' : 'login.html';  // <-- fixed href
   }
 
-  // 2. Active page highlight – rock solid
-  const current = location.pathname.split('/').pop() || 'index.html';
+  // 2. Active page – EXACT MATCH + CLEAN PREVIOUS
+  const currentPage = location.pathname.split('/').pop() || 'index.html';
+
   document.querySelectorAll('nav a').forEach(a => {
     const href = a.getAttribute('href');
-    const isActive = href === current;
-    a.classList.toggle('active', isActive);
-    
+    const isActive = href === currentPage;
+
+    // Remove active from all first
+    a.classList.remove('active');
+
+    // Add only to the matching one
+    if (isActive) a.classList.add('active');
+
     // Hide protected links for guests
-    const isPublic = href === 'index.html' || href === 'login.html';
+    const isPublic = ['index.html', 'login.html', 'contact.html'].includes(href);
     a.style.display = (!logged && !isPublic) ? 'none' : '';
   });
 
-  // 3. Super smooth fade-in for logout button
+  // Fade in logout
   if (logged && logoutBtn && logoutBtn.style.display === 'inline-block') {
     logoutBtn.style.opacity = '0';
     logoutBtn.style.transition = 'opacity 0.25s ease';
