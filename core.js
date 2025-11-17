@@ -27,6 +27,15 @@
   };
   core.isLoggedIn = async function () { return !!(await core.getSession()); };
 
+  core.getCurrentUser = async function () {
+  const { data: { user } } = await window.supabase.auth.getUser();
+  return user;
+};
+core.getUserEmail = async function () {
+  const user = await core.getCurrentUser();
+  return user?.email ?? null;
+};
+
   // ----- Header/nav – SMOOTH & INSTANT -----
 core.updateHeaderUI = async function () {
   const logged = await core.isLoggedIn();
