@@ -1,4 +1,4 @@
-[
+
     {
       "name": "Danielle Bennett",
       "university": "North Carolina Central University",
@@ -1223,7 +1223,7 @@
       "linkUrl": "",
       "linkText": "More Info"
     },
-    {[
+    {}
   {
     "name": "Danielle Bennett",
     "university": "North Carolina Central University",
@@ -2448,4 +2448,4 @@
     "linkUrl": "",
     "linkText": "More Info"
   },
-  {}
+  
