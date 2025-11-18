@@ -70,7 +70,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         let streak = 0;
         for (let i = 0; dates[i] === new Date(Date.now() - i*24*60*60*1000).toISOString().split('T')[0]; i++) streak++;
         document.getElementById("streakCount").textContent = streak;
-        document.getElementById("streakEmoji").textContent = streak >= 7 ? "On fire" : streak >= 3 ? "Sparkles" : "Seedling";
+        document.getElementById("streakEmoji").textContent = streak >= 7 ? "🔥" : streak >= 3 ? "✨" : "🌱";
 
         // Destroy old charts
         if (window.pieChart) window.pieChart.destroy();

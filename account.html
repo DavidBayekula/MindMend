@@ -46,6 +46,25 @@
     </button>
   </div>
 
+    <!-- Download All Entries Section -->
+  <div style="margin: 50px auto 30px; text-align: center;">
+    <p style="font-size:19px; margin-bottom:16px; color:var(--charcoal); font-weight:600;">
+      Backup your journal
+    </p>
+    <div style="display:flex; gap:14px; justify-content:center; flex-wrap:wrap;">
+      <button id="downloadPdf" class="btn" style="background:#8B6F47;">
+        📄 Download as PDF
+      </button>
+      <button id="downloadMd" class="btn" style="background:#5D4037;">
+        Markdown
+      </button>
+      <button id="downloadJson" class="btn" style="background:#455A64;">
+        JSON
+      </button>
+    </div>
+    <p id="downloadStatus" style="margin-top:14px; min-height:1.4em; font-weight:500;"></p>
+  </div>
+
   <div class="card" style="max-width:560px;margin:0 auto">
     <form id="accountForm">
       <!-- Email -->
