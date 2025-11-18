@@ -39,6 +39,13 @@
   <h1 style="font-family:Playfair Display,serif;margin-top:0">Account Settings</h1>
   <p class="lead">Update your email address or change your password.</p>
 
+  <!-- Mood Insights Button -->
+  <div style="margin: 20px auto; text-align: center;">
+    <button id="openMoodInsights" class="btn" style="background:var(--sage); padding:12px 24px; font-size:16px;">
+      📊 View My Mood Insights
+    </button>
+  </div>
+
   <div class="card" style="max-width:560px;margin:0 auto">
     <form id="accountForm">
       <!-- Email -->
@@ -47,13 +54,11 @@
         <input id="email" class="input" placeholder="your@email.com" required />
       </div>
 
-      <!-- Password -->
+      <!-- Password Password fields unchanged -->
       <div class="field">
         <label for="newPassword">New password <span class="muted">(leave blank to keep current)</span></label>
         <input id="newPassword" class="input" type="password" placeholder="••••••••" />
       </div>
-
-      <!-- Confirm Password -->
       <div class="field">
         <label for="confirmPassword">Confirm new password</label>
         <input id="confirmPassword" class="input" type="password" placeholder="••••••••" />
@@ -64,6 +69,42 @@
     </form>
   </div>
 </main>
+
+<!-- Mood Insights Modal -->
+<div id="moodModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:1000; align-items:center; justify-content:center;">
+  <div style="background:#fff; border-radius:20px; width:90%; max-width:900px; max-height:90vh; overflow:auto; box-shadow:0 20px 60px rgba(0,0,0,0.3); position:relative;">
+    <button onclick="document.getElementById('moodModal').style.display='none'" 
+            style="position:absolute; top:16px; right:20px; background:none; border:none; font-size:28px; cursor:pointer; color:#888;">×</button>
+    
+    <div style="padding:32px; text-align:center;">
+      <h2 style="font-family:Playfair Display,serif; font-size:32px; margin:0 0 8px; color:var(--charcoal);">Your Mood Journey</h2>
+      <p class="muted">Last 30 days • <span id="entryCount">0</span> entries</p>
+
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:32px; margin:32px 0;">
+        <div>
+          <canvas id="moodPieChart" height="240"></canvas>
+          <p style="margin-top:12px; font-weight:600;" id="dominantMood">Keep journaling to see your trends!</p>
+        </div>
+        <div>
+          <canvas id="moodLineChart" height="240"></canvas>
+        </div>
+      </div>
+
+      <div style="background:#f8f5f0; border-radius:16px; padding:20px; margin:20px 0; font-size:18px;">
+        <div style="display:flex; align-items:center; justify-content:center; gap:12px;">
+          <span style="font-size:48px;" id="streakEmoji">🔥</span>
+          <div>
+            <strong id="streakCount">0</strong>-day journaling streak<br>
+            <span style="color:#666; font-size:14px;">You're building an amazing habit!</span>
+          </div>
+        </div>
+      </div>
+
+      <button onclick="document.getElementById('moodModal').style.display='none'" 
+              class="btn" style="margin-top:16px; padding:12px 32px;">Close</button>
+    </div>
+  </div>
+</div>
 
 <footer class="container">
   <div>© <span id="year"></span> MindMend • All rights reserved.</div>
@@ -82,6 +123,117 @@
 
 <!-- Page-specific -->
 <script src="account.js"></script>
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+// Mood Insights Modal Logic
+document.addEventListener("DOMContentLoaded", async () => {
+  await new Promise(resolve => window.core?.onReady?.(resolve) || setTimeout(resolve, 1000));
+  
+  const modal = document.getElementById("moodModal");
+  document.getElementById("openMoodInsights")?.addEventListener("click", async () => {
+    modal.style.display = "flex";
+    await loadMoodInsights();
+  });
+
+  const moodEmojis = { "😊": "Happy", "🙂": "Calm", "😐": "Neutral", "😔": "Sad", "😰": "Anxious", "😡": "Angry", "❤️": "Love" };
+  const colors = ["#A7D8A7", "#C7E1C7", "#E0E0E0", "#D8A7A7", "#E8C7A7", "#E8A7A7", "#FFB3B3"];
+
+  async function loadMoodInsights() {
+    try {
+      const { data: entries } = await window.supabase
+        .from('journal_entries')
+        .select('feeling, created_at')
+        .gte('created_at', new Date(Date.now() - 30*24*60*60*1000).toISOString())
+        .order('created_at', { ascending: true });
+
+      document.getElementById("entryCount").textContent = entries.length;
+
+      if (entries.length === 0) {
+        document.getElementById("dominantMood").textContent = "Start journaling to see your mood trends!";
+        return;
+      }
+
+      // Count moods
+      const moodCount = {};
+      entries.forEach(e => {
+        if (e.feeling) moodCount[e.feeling] = (moodCount[e.feeling] || 0) + 1;
+      });
+
+      const labels = Object.keys(moodCount).map(e => moodEmojis[e] || e);
+      const data = Object.values(moodCount);
+
+      // Dominant mood
+      const dominant = Object.entries(moodCount).sort((a,b) => b[1] - a[1])[0];
+      document.getElementById("dominantMood").textContent = 
+        `You've been feeling mostly ${moodEmojis[dominant[0]] || dominant[0]} lately`;
+
+      // Streak calculation
+      const dates = [...new Set(entries.map(e => e.created_at.split('T')[0]))].sort().reverse();
+      let streak = 0;
+      const today = new Date().toISOString().split('T')[0];
+      for (let i = 0; i < dates.length; i++) {
+        const expected = new Date(Date.now() - i*24*60*60*1000).toISOString().split('T')[0];
+        if (dates[i] === expected) streak++;
+        else break;
+      }
+      document.getElementById("streakCount").textContent = streak;
+      document.getElementById("streakEmoji").textContent = streak >= 7 ? "🔥" : streak >= 3 ? "✨" : "🌱";
+
+      // Destroy old charts if exist
+      if (window.pieChart) window.pieChart.destroy();
+      if (window.lineChart) window.lineChart.destroy();
+
+      // Pie Chart
+      window.pieChart = new Chart(document.getElementById("moodPieChart"), {
+        type: "doughnut",
+        data: { labels, datasets: [{ data, backgroundColor: colors, borderWidth: 3, borderColor: "#fff" }] },
+        options: { plugins: { legend: { position: "bottom" } } }
+      });
+
+      // Line Chart - mood over time
+      const last30Days = Array(30).fill().map((_, i) => {
+        const d = new Date(Date.now() - (29-i)*24*60*60*1000);
+        return d.toISOString().split('T')[0];
+      });
+
+      const moodValues = { "😡":1, "😰":2, "😔":3, "😐":4, "🙂":5, "😊":6, "❤️":7 };
+      const dailyMoods = last30Days.map(date => {
+        const dayEntries = entries.filter(e => e.created_at.startsWith(date));
+        if (dayEntries.length === 0) return null;
+        const avg = dayEntries.reduce((sum, e) => sum + (moodValues[e.feeling] || 4), 0) / dayEntries.length;
+        return avg;
+      });
+
+      window.lineChart = new Chart(document.getElementById("moodLineChart"), {
+        type: "line",
+        data: {
+          labels: Array(30).fill().map((_,i) => i === 29 ? "Today" : `${30-i}d ago`),
+          datasets: [{
+            label: "Mood Trend",
+            data: dailyMoods,
+            borderColor: "rgb(124, 140, 132)",
+            backgroundColor: "rgba(124, 140, 132, 0.1)",
+            tension: 0.4,
+            fill: true,
+            pointBackgroundColor: dailyMoods.map(v => v > 5 ? "#A7D8A7" : v > 4 ? "#E0E0E0" : "#D8A7A7")
+          }]
+        },
+        options: {
+          scales: { y: { min: 1, max: 7, ticks: { stepSize: 1, callback: v => ["", "😡","😰","😔","😐","🙂","😊","❤️"][v] || "" } } },
+          plugins: { legend: { display: false } }
+        }
+      });
+
+    } catch (err) {
+      console.error(err);
+      document.getElementById("dominantMood").textContent = "Could not load insights.";
+    }
+  }
+});
+</script>
 
 </body>
 </html>
