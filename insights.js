@@ -128,7 +128,66 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   }
 
-  // =============== DOWNLOAD BUTTONS (now work once HTML is added) ===============
-  // PDF, Markdown, JSON handlers remain exactly as you had them — they work perfectly.
-  // (I only added moodMap[feeling]?.name in the PDF/MD text for nicer output)
+  // =============== DOWNLOAD BUTTONS ===============
+  document.getElementById("downloadPdf")?.addEventListener("click", async () => {
+    try {
+      const entries = await fetchEntries();
+      if (!entries.length) return showStatus("No entries to download.");
+
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      doc.setFontSize(20);
+      doc.text("My MindMend Journal", 105, 20, { align: "center" });
+      doc.setFontSize(12);
+      doc.text(`Exported ${new Date().toLocaleDateString()} • ${entries.length} entries`, 105, 30, { align: "center" });
+
+      let y = 45;
+      entries.forEach((e, i) => {
+        if (y > 270) { doc.addPage(); y = 20; }
+        const date = new Date(e.created_at).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+        doc.setFontSize(16);
+        doc.text(e.title || "(Untitled)", 20, y); y += 8;
+        doc.setFontSize(11);
+        doc.setTextColor(120,120,120);
+        doc.text(`${date}   ${e.feeling || ""} ${moodEmojis[e.feeling] || ""}`, 20, y); y += 10;
+
+        const txt = (e.body || "").replace(/<\/?[^>]+>/gi, "");
+        doc.setFontSize(12);
+        doc.setTextColor(60,60,60);
+        doc.text(doc.splitTextToSize(txt, 170), 20, y);
+        y += txt.split("\n").length * 7 + 10;
+        if (i < entries.length-1) { doc.setDrawColor(220,220,220); doc.line(20, y-5, 190, y-5); y += 8; }
+      });
+
+      doc.save(`MindMend-Journal-${new Date().toISOString().slice(0,10)}.pdf`);
+      showStatus("PDF downloaded!");
+    } catch (err) { showStatus("PDF failed", true); }
+  });
+
+  document.getElementById("downloadMd")?.addEventListener("click", async () => {
+    const entries = await fetchEntries();
+    if (!entries.length) return showStatus("No entries.");
+    let md = `# MindMend Journal Export\n\n${new Date().toLocaleString()}\n\n---\n\n`;
+    entries.forEach(e => {
+      const clean = (e.body || "").replace(/<\/?[^>]+>/gi, "").trim();
+      md += `## ${e.title || "Untitled"}\n*${new Date(e.created_at).toLocaleDateString()} ${e.feeling || ""} ${moodEmojis[e.feeling] || ""}*\n\n${clean}\n\n---\n\n`;
+    });
+    const blob = new Blob([md], { type: "text/markdown" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a"); a.href = url; a.download = `MindMend-${new Date().toISOString().slice(0,10)}.md`; a.click();
+    URL.revokeObjectURL(url);
+    showStatus("Markdown downloaded!");
+  });
+
+  document.getElementById("downloadJson")?.addEventListener("click", async () => {
+    const entries = await fetchEntries();
+    if (!entries.length) return showStatus("No entries.");
+    const data = { exported_at: new Date().toISOString(), total: entries.length, entries };
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a"); a.href = url; a.download = `MindMend-${new Date().toISOString().slice(0,10)}.json`; a.click();
+    URL.revokeObjectURL(url);
+    showStatus("JSON downloaded!");
+  });
 });
+
