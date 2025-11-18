@@ -103,6 +103,15 @@
   </script>
   <script src="core.js"></script>
   <script>
+  // Trigger core.onReady so streak badge + header updates run
+  document.addEventListener("DOMContentLoaded", async () => {
+    if (window.core && typeof window.core.onReady === "function") {
+      await new Promise(resolve => window.core.onReady(resolve));
+    }
+  });
+</script>
+
+  <script>
     document.getElementById('year').textContent = new Date().getFullYear();
     // Simple CTA → scroll to features (or open login if logged out)
     document.querySelector('.cta-big').addEventListener('click', () => {
