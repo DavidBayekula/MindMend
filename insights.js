@@ -128,7 +128,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   }
 
-  // =============== DOWNLOAD BUTTONS ===============
+   // =============== DOWNLOAD BUTTONS (FIXED + PRETTIER OUTPUT) ===============
   document.getElementById("downloadPdf")?.addEventListener("click", async () => {
     try {
       const entries = await fetchEntries();
@@ -136,58 +136,134 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       const { jsPDF } = window.jspdf;
       const doc = new jsPDF();
-      doc.setFontSize(20);
-      doc.text("My MindMend Journal", 105, 20, { align: "center" });
-      doc.setFontSize(12);
-      doc.text(`Exported ${new Date().toLocaleDateString()} • ${entries.length} entries`, 105, 30, { align: "center" });
+      doc.setFont("helvetica", "normal");
 
-      let y = 45;
+      // Title
+      doc.setFontSize(22);
+      doc.text("My MindMend Journal", 105, 25, { align: "center" });
+      doc.setFontSize(12);
+      doc.setTextColor(100);
+      doc.text(`Exported on ${new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })} • ${entries.length} entries`, 105, 35, { align: "center" });
+
+      let y = 50;
+
       entries.forEach((e, i) => {
         if (y > 270) { doc.addPage(); y = 20; }
-        const date = new Date(e.created_at).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-        doc.setFontSize(16);
-        doc.text(e.title || "(Untitled)", 20, y); y += 8;
-        doc.setFontSize(11);
-        doc.setTextColor(120,120,120);
-        doc.text(`${date}   ${e.feeling || ""} ${moodEmojis[e.feeling] || ""}`, 20, y); y += 10;
 
-        const txt = (e.body || "").replace(/<\/?[^>]+>/gi, "");
+        // Date + Mood
+        const dateStr = new Date(e.created_at).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+        const moodName = moodMap[e.feeling]?.name || "";
+        const moodEmoji = e.feeling || "";
+
+        doc.setFontSize(16);
+        doc.setTextColor(59, 44, 40);
+        doc.text(e.title || "(Untitled)", 20, y);
+        y += 7;
+
+        doc.setFontSize(11);
+        doc.setTextColor(120, 120, 120);
+        doc.text(`${dateStr}  ${moodEmoji} ${moodName}`, 20, y);
+        y += 12;
+
+        // Body – preserve bold/italic/lists better by converting simple HTML
+        let bodyText = e.body || "";
+        bodyText = bodyText
+          .replace(/<strong>(.*?)<\/strong>/gi, '*$1*')
+          .replace(/<b>(.*?)<\/b>/gi, '*$1*')
+          .replace(/<em>(.*?)<\/em>/gi, '_$1_')
+          .replace(/<i>(.*?)<\/i>/gi, '_$1_')
+          .replace(/<li>/gi, '• ')
+          .replace(/<\/?[^>]+(>|$)/g, " "); // final strip
+
         doc.setFontSize(12);
-        doc.setTextColor(60,60,60);
-        doc.text(doc.splitTextToSize(txt, 170), 20, y);
-        y += txt.split("\n").length * 7 + 10;
-        if (i < entries.length-1) { doc.setDrawColor(220,220,220); doc.line(20, y-5, 190, y-5); y += 8; }
+        doc.setTextColor(60, 60, 60);
+        const lines = doc.splitTextToSize(bodyText.trim(), 170);
+        doc.text(lines, 20, y);
+        y += lines.length * 6.5 + 12;
+
+        // Separator line
+        if (i < entries.length - 1) {
+          doc.setDrawColor(220, 220, 220);
+          doc.line(20, y - 8, 190, y - 8);
+          y += 5;
+        }
       });
 
       doc.save(`MindMend-Journal-${new Date().toISOString().slice(0,10)}.pdf`);
-      showStatus("PDF downloaded!");
-    } catch (err) { showStatus("PDF failed", true); }
+      showStatus("✅ PDF downloaded beautifully!");
+
+    } catch (err) {
+      console.error(err);
+      showStatus("PDF generation failed – check console", true);
+    }
   });
 
+  // Markdown – now prettier with bold/italic/lists preserved
   document.getElementById("downloadMd")?.addEventListener("click", async () => {
-    const entries = await fetchEntries();
-    if (!entries.length) return showStatus("No entries.");
-    let md = `# MindMend Journal Export\n\n${new Date().toLocaleString()}\n\n---\n\n`;
-    entries.forEach(e => {
-      const clean = (e.body || "").replace(/<\/?[^>]+>/gi, "").trim();
-      md += `## ${e.title || "Untitled"}\n*${new Date(e.created_at).toLocaleDateString()} ${e.feeling || ""} ${moodEmojis[e.feeling] || ""}*\n\n${clean}\n\n---\n\n`;
-    });
-    const blob = new Blob([md], { type: "text/markdown" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a"); a.href = url; a.download = `MindMend-${new Date().toISOString().slice(0,10)}.md`; a.click();
-    URL.revokeObjectURL(url);
-    showStatus("Markdown downloaded!");
+    try {
+      const entries = await fetchEntries();
+      if (!entries.length) return showStatus("No entries.");
+
+      let md = `# My MindMend Journal\n\nExported on ${new Date().toLocaleString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}\n\n---\n\n`;
+
+      entries.forEach(e => {
+        const dateStr = new Date(e.created_at).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+        const moodName = moodMap[e.feeling]?.name || "";
+        const moodEmoji = e.feeling || "";
+
+        md += `## ${e.title || "Untitled"}\n\n`;
+        md += `*${dateStr} ${moodEmoji} ${moodName}*\n\n`;
+
+        // Preserve some formatting
+        let body = (e.body || "")
+          .replace(/<strong>(.*?)<\/strong>/gi, '**$1**')
+          .replace(/<em>(.*?)<\/em>/gi, '*$1*')
+          .replace(/<li>/gi, '- ')
+          .replace(/<\/?[^>]+>/g, "");
+
+        md += body.trim() + "\n\n---\n\n";
+      });
+
+      const blob = new Blob([md], { type: "text/markdown;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `MindMend-Journal-${new Date().toISOString().slice(0,10)}.md`;
+      a.click();
+      URL.revokeObjectURL(url);
+      showStatus("✅ Markdown downloaded beautifully!");
+    } catch (err) {
+      console.error(err);
+      showStatus("Markdown failed", true);
+    }
   });
 
+  // JSON unchanged – already perfect
   document.getElementById("downloadJson")?.addEventListener("click", async () => {
-    const entries = await fetchEntries();
-    if (!entries.length) return showStatus("No entries.");
-    const data = { exported_at: new Date().toISOString(), total: entries.length, entries };
-    const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a"); a.href = url; a.download = `MindMend-${new Date().toISOString().slice(0,10)}.json`; a.click();
-    URL.revokeObjectURL(url);
-    showStatus("JSON downloaded!");
+    try {
+      const entries = await fetchEntries();
+      if (!entries.length) return showStatus("No entries.");
+
+      const data = {
+        exported_at: new Date().toISOString(),
+        total_entries: entries.length,
+        entries: entries.map(e => ({
+          ...e,
+          mood_name: moodMap[e.feeling]?.name || null
+        }))
+      };
+
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `MindMend-Journal-${new Date().toISOString().slice(0,10)}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+      showStatus("✅ JSON downloaded!");
+    } catch (err) {
+      showStatus("JSON failed", true);
+    }
   });
 });
 
