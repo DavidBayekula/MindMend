@@ -101,25 +101,25 @@
   document.getElementById('daily-quote').textContent = `“${quote}”`;
   document.getElementById('daily-author').textContent = `— ${author}`;
   </script>
+
   <script src="core.js"></script>
-  <script>
-  // Trigger core.onReady so streak badge + header updates run
-  document.addEventListener("DOMContentLoaded", async () => {
-    if (window.core && typeof window.core.onReady === "function") {
-      await new Promise(resolve => window.core.onReady(resolve));
-    }
-  });
-</script>
 
   <script>
+    // Ensure core.onReady fires → triggers streak badge + confetti
+    document.addEventListener("DOMContentLoaded", async () => {
+      if (window.core?.onReady) {
+        await new Promise(r => window.core.onReady(r));
+      }
+    });
+  </script>
+
+  <!-- Confetti + CTA -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+  <script>
     document.getElementById('year').textContent = new Date().getFullYear();
-    // Simple CTA → scroll to features (or open login if logged out)
     document.querySelector('.cta-big').addEventListener('click', () => {
       document.querySelector('.feature-cards').scrollIntoView({ behavior: 'smooth' });
     });
   </script>
-
-<!-- Confetti animation (lightweight, zero dependencies) -->
-<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
 </body>
 </html>
