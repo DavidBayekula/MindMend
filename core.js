@@ -207,28 +207,28 @@ async function updateStreakBadge() {
     if (streak >= 100) {
       message = "Legendary! 100+ day streak!";
       gradient = "linear-gradient(90deg, #9C27B0, #FF9800, #4CAF50)";
-      emojiEl.textContent = "Crown";
+      emojiEl.textContent = "👑";
     } else if (streak >= 50) {
       message = "Half-century hero!";
       gradient = "linear-gradient(90deg, #FF5722, #FFC107)";
-      emojiEl.textContent = "Trophy";
+      emojiEl.textContent = "🏆";
     } else if (streak >= 30) {
       message = "30+ days — you're a legend!";
       gradient = "linear-gradient(90deg, #FF8A65, #A7D8A7)";
-      emojiEl.textContent = "Star";
+      emojiEl.textContent = "⭐";
     } else if (streak >= 14) {
-      message = "2-week fire!";
+      message = "2-week on fire!";
       gradient = "linear-gradient(90deg, #FF6B6B, #A7D8A7)";
-      emojiEl.textContent = "Fire";
+      emojiEl.textContent = "🔥";
     } else if (streak >= 7) {
       message = "Week on fire!";
-      emojiEl.textContent = "Fire";
+      emojiEl.textContent = "🔥";
     } else if (streak >= 3) {
       message = "Great start!";
-      emojiEl.textContent = "Sparkles";
+      emojiEl.textContent = "✨";
     } else {
       message = "Keep it going!";
-      emojiEl.textContent = "Seedling";
+      emojiEl.textContent = "🌱";
     }
 
     badge.style.background = gradient;
