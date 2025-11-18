@@ -151,7 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
   core.updateHeaderUI().catch(() => {}); // fire-and-forget
 });
 
-// ====== STREAK BADGE – GLOBAL (runs on every page) ======
+// ====== STREAK BADGE + CONFETTI (GLOBAL, SMART) ======
 async function updateStreakBadge() {
   const badge = document.getElementById("streakBadge");
   const countEl = document.getElementById("streakCount");
@@ -159,61 +159,136 @@ async function updateStreakBadge() {
 
   if (!badge || !countEl || !emojiEl) return;
 
-  const user = window.supabase.auth.getUser();
-  if (!user) {
-    badge.style.display = "none";
-    return;
-  }
+  // Hide by default until we calculate
+  badge.style.display = "none";
 
   try {
+    const { data: userData } = await window.supabase.auth.getUser();
+    if (!userData?.user) return;
+
     const { data: entries } = await window.supabase
       .from('journal_entries')
       .select('created_at')
       .order('created_at', { ascending: false });
 
-    if (!entries || entries.length === 0) {
-      badge.style.display = "none";
-      return;
-    }
+    if (!entries?.length) return;
 
+    // Calculate current streak
     const dates = [...new Set(entries.map(e => e.created_at.split('T')[0]))].sort().reverse();
     let streak = 0;
-    const today = new Date().toISOString().split('T')[0];
-
     for (let i = 0; i < dates.length; i++) {
       const expected = new Date(Date.now() - i * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
       if (dates[i] === expected) streak++;
       else break;
     }
 
-    // Show badge
-    badge.style.display = "block";
+    if (streak === 0) return;
+
+    // === SMART SHOW LOGIC: Only show once per day + confetti on new high ===
+    const today = new Date().toDateString();
+    const lastShownDate = localStorage.getItem("streakBadgeShown") || "";
+    const lastKnownStreak = parseInt(localStorage.getItem("lastStreak") || "0");
+
+    const shouldShowBadge = lastShownDate !== today;
+    const isNewMilestone = streak > lastKnownStreak;
+
+    // Update stored values
+    localStorage.setItem("lastStreak", streak);
+    if (shouldShowBadge) {
+      localStorage.setItem("streakBadgeShown", today);
+    }
+
+    // === UPDATE BADGE TEXT & STYLE ===
     countEl.textContent = streak;
 
-    // Dynamic emoji & message
-    if (streak >= 30) {
-      emojiEl.textContent = "Legendary streak!";
-      badge.style.background = "linear-gradient(90deg, #FFB3B3, #A7D8A7)";
+    let message = "";
+    let gradient = "linear-gradient(90deg, #A7D8A7, #C7E1C7)";
+
+    if (streak >= 100) {
+      message = "Legendary! 100+ day streak!";
+      gradient = "linear-gradient(90deg, #9C27B0, #FF9800, #4CAF50)";
+      emojiEl.textContent = "Crown";
+    } else if (streak >= 50) {
+      message = "Half-century hero!";
+      gradient = "linear-gradient(90deg, #FF5722, #FFC107)";
+      emojiEl.textContent = "Trophy";
+    } else if (streak >= 30) {
+      message = "30+ days — you're a legend!";
+      gradient = "linear-gradient(90deg, #FF8A65, #A7D8A7)";
+      emojiEl.textContent = "Star";
     } else if (streak >= 14) {
-      emojiEl.textContent = "On fire";
-      badge.style.background = "linear-gradient(90deg, #FF8C42, #A7D8A7)";
+      message = "2-week fire!";
+      gradient = "linear-gradient(90deg, #FF6B6B, #A7D8A7)";
+      emojiEl.textContent = "Fire";
     } else if (streak >= 7) {
-      emojiEl.textContent = "On fire";
+      message = "Week on fire!";
+      emojiEl.textContent = "Fire";
     } else if (streak >= 3) {
+      message = "Great start!";
       emojiEl.textContent = "Sparkles";
     } else {
+      message = "Keep it going!";
       emojiEl.textContent = "Seedling";
+    }
+
+    badge.style.background = gradient;
+    badge.innerHTML = `
+      <span style="font-size:18px">${emojiEl.textContent}</span>
+      <strong>${streak}</strong>-day journaling streak — ${message}
+      <span style="font-size:18px">${emojiEl.textContent}</span>
+    `;
+
+    // === SHOW BADGE (only once per day) ===
+    if (shouldShowBadge) {
+      badge.style.display = "block";
+      badge.style.animation = "slideDown 0.6s ease-out";
+
+      // === CONFETTI ONLY ON NEW PERSONAL BEST ===
+      if (isNewMilestone && typeof confetti === "function") {
+        // Multiple bursts for maximum joy
+        confetti({
+          particleCount: 100,
+          spread: 70,
+          origin: { y: 0.6 }
+        });
+        setTimeout(() => confetti({
+          particleCount: 50,
+          angle: 60,
+          spread: 55,
+          origin: { x: 0 }
+        }), 250);
+        setTimeout(() => confetti({
+          particleCount: 50,
+          angle: 120,
+          spread: 55,
+          origin: { x: 1 }
+        }), 400);
+      }
     }
 
   } catch (err) {
     console.error("Streak badge error:", err);
-    badge.style.display = "none";
   }
 }
 
-// Run on login + page load
+// Add subtle slide-down animation (add to your styles.css or inline)
+const style = document.createElement("style");
+style.textContent = `
+  @keyframes slideDown {
+    from { transform: translateY(-100%); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+`;
+document.head.appendChild(style);
+
+// Run on load + when user comes back
 window.core?.onReady?.(() => {
   updateStreakBadge();
-  // Optional: refresh every 5 minutes
-  setInterval(updateStreakBadge, 5 * 60 * 1000);
+
+  // Also check when user returns to tab (for midnight streak updates)
+  document.addEventListener("visibilitychange", () => {
+    if (!document.hidden) {
+      updateStreakBadge();
+    }
+  });
 });
