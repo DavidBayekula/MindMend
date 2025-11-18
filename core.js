@@ -150,3 +150,70 @@ core.getUserEmail = async function () {
 document.addEventListener('DOMContentLoaded', () => {
   core.updateHeaderUI().catch(() => {}); // fire-and-forget
 });
+
+// ====== STREAK BADGE – GLOBAL (runs on every page) ======
+async function updateStreakBadge() {
+  const badge = document.getElementById("streakBadge");
+  const countEl = document.getElementById("streakCount");
+  const emojiEl = document.getElementById("streakEmoji");
+
+  if (!badge || !countEl || !emojiEl) return;
+
+  const user = window.supabase.auth.getUser();
+  if (!user) {
+    badge.style.display = "none";
+    return;
+  }
+
+  try {
+    const { data: entries } = await window.supabase
+      .from('journal_entries')
+      .select('created_at')
+      .order('created_at', { ascending: false });
+
+    if (!entries || entries.length === 0) {
+      badge.style.display = "none";
+      return;
+    }
+
+    const dates = [...new Set(entries.map(e => e.created_at.split('T')[0]))].sort().reverse();
+    let streak = 0;
+    const today = new Date().toISOString().split('T')[0];
+
+    for (let i = 0; i < dates.length; i++) {
+      const expected = new Date(Date.now() - i * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+      if (dates[i] === expected) streak++;
+      else break;
+    }
+
+    // Show badge
+    badge.style.display = "block";
+    countEl.textContent = streak;
+
+    // Dynamic emoji & message
+    if (streak >= 30) {
+      emojiEl.textContent = "Legendary streak!";
+      badge.style.background = "linear-gradient(90deg, #FFB3B3, #A7D8A7)";
+    } else if (streak >= 14) {
+      emojiEl.textContent = "On fire";
+      badge.style.background = "linear-gradient(90deg, #FF8C42, #A7D8A7)";
+    } else if (streak >= 7) {
+      emojiEl.textContent = "On fire";
+    } else if (streak >= 3) {
+      emojiEl.textContent = "Sparkles";
+    } else {
+      emojiEl.textContent = "Seedling";
+    }
+
+  } catch (err) {
+    console.error("Streak badge error:", err);
+    badge.style.display = "none";
+  }
+}
+
+// Run on login + page load
+window.core?.onReady?.(() => {
+  updateStreakBadge();
+  // Optional: refresh every 5 minutes
+  setInterval(updateStreakBadge, 5 * 60 * 1000);
+});
