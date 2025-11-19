@@ -1,3 +1,57 @@
+/* ——— DARK MODE ——— */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --brown: #5D4A44;
+    --beige: #1E1B18;
+    --sage: #8BA89A;
+    --taupe: #B89F95;
+    --charcoal: #E8E3DD;
+    --white: #2B2520;
+  }
+}
+
+[data-theme="dark"] {
+  --brown: #5D4A44;
+  --beige: #1E1B18;
+  --sage: #8BA89A;
+  --taupe: #B89F95;
+  --charcoal: #E8E3DD;
+  --white: #2B2520;
+  background: #12100E;
+  color: #E8E3DD;
+}
+
+[data-theme="dark"] .card,
+[data-theme="dark"] .editor,
+[data-theme="dark"] .sidebar,
+[data-theme="dark"] .bubble,
+[data-theme="dark"] .login,
+[data-theme="dark"] .c-card,
+[data-theme="dark"] .banner-quote,
+[data-theme="dark"] .fcard {
+  background: #2B2520;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+}
+
+[data-theme="dark"] input,
+[data-theme="dark"] textarea,
+[data-theme="dark"] .input {
+  background: #333;
+  border-color: #555;
+  color: #E8E3DD;
+}
+
+[data-theme="dark"] .entry:hover { background: #333; }
+[data-theme="dark"] .muted { color: #999; }
+[data-theme="dark"] .datepill { background: #444; }
+
+#themeToggle:hover {
+  background: rgba(255,255,255,0.15) !important;
+  transform: scale(1.1);
+}
+[data-theme="dark"] #themeToggle:hover {
+  background: rgba(255,255,255,0.1) !important;
+}
 
 :root{
   --brown:#3B2C28; --beige:#F4F1EC; --sage:#7C8C84; --taupe:#A1887F;
